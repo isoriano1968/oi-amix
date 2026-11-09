@@ -1,0 +1,86 @@
+amix-gcc-wrapper.sh: temporaries in a private mktemp -d directory, removed
+on every exit.
+
+1. The wrapper made its temporary .s and .o with mktemp templates that end
+   in a suffix (amix-gcc.XXXXXX.s), a GNU extension. illumos mktemp returns
+   such a template unchanged (Solaris 11.4's fills it in), so all compiles shared one literal name: under
+   make -j one compile failed in mktemp and assembled into the other's file.
+   Now one directory per run from mktemp -d (trailing X's work with every
+   mktemp), made on first use, with the files named inside it.
+2. A compile-and-link ended in "exec ld", which replaces the shell before
+   its EXIT trap runs, so the temporaries of every such run stayed in
+   $TMPDIR (seen on Linux, Solaris and illumos alike). ld now runs as a
+   child; the wrapper still exits with its status.
+
+Both are for upstream amix-userland.
+
+--- a/components/developer/gcc-27/amix-gcc-wrapper.sh	2026-11-08 21:21:36.590773525 +0100
++++ b/components/developer/gcc-27/amix-gcc-wrapper.sh	2026-11-08 21:22:47.222856164 +0100
+@@ -19,9 +19,28 @@
+ default_lib_dirs=("$sysroot/usr/lib" "$crt_dir")
+ tmpfiles=()
+ 
++# Temporary files live in one private directory per run.  A template with a
++# suffix (amix-gcc.XXXXXX.s) is a GNU mktemp extension: illumos mktemp
++# returns it verbatim, so every compile used the same literal name and
++# two parallel compiles (make -j) wrote into each other's assembly.  Every
++# mktemp fills in trailing X's, and -d makes the directory private.
++# The directory is made on first use, so the runs that only exec the real
++# compiler (-E, -S, -M...) leave nothing behind.
++workdir=
++ntmp=0
++# tmpname SUFFIX: a fresh name in $workdir, in the variable tmp (not printed:
++# a $(...) call would run in a subshell and lose workdir and the counter).
++tmpname()
++{
++	test -n "$workdir" || workdir="$(mktemp -d "${TMPDIR:-/tmp}/amix-gcc.XXXXXX")"
++	ntmp=$((ntmp + 1))
++	tmp="$workdir/t$ntmp$1"
++}
++
+ cleanup()
+ {
+ 	rm -f "${tmpfiles[@]}" 2>/dev/null || true
++	test -z "$workdir" || rm -rf "$workdir" 2>/dev/null || true
+ }
+ trap cleanup EXIT INT TERM
+ 
+@@ -246,7 +265,7 @@
+ 	shift 2
+ 	local asmfile
+ 
+-	asmfile="$(mktemp "${TMPDIR:-/tmp}/amix-gcc.XXXXXX.s")"
++	tmpname .s; asmfile="$tmp"
+ 	tmpfiles+=("$asmfile")
+ 
+ 	# Assemble for whatever architecture the compile asked for.  This used to
+@@ -574,14 +593,14 @@
+ fi
+ 
+ for src in "${sources[@]}"; do
+-	obj="$(mktemp "${TMPDIR:-/tmp}/amix-gcc.XXXXXX.o")"
++	tmpname .o; obj="$tmp"
+ 	tmpfiles+=("$obj")
+ 	compile_one "$src" "$obj" "${compile_flags[@]}"
+ 	objects+=("$obj")
+ done
+ 
+ for src in "${asm_sources[@]}"; do
+-	obj="$(mktemp "${TMPDIR:-/tmp}/amix-gcc.XXXXXX.o")"
++	tmpname .o; obj="$tmp"
+ 	tmpfiles+=("$obj")
+ 	assemble_one "$src" "$obj"
+ 	objects+=("$obj")
+@@ -648,7 +667,11 @@
+ # dependency, so any preceding static archive whose members reference the 64-bit
+ # helpers must come before it for single-pass ld to resolve them.  This mirrors
+ # a stock gcc driver, which appends -lgcc at the end of the link.
+-exec "$ld" -o "$out" \
++#
++# Not exec: that would replace the shell before its EXIT trap runs, leaving
++# the temporary .s and .o of every compile-and-link in $TMPDIR.  The wrapper
++# exits with ld's status either way (set -e, or the last command's).
++"$ld" -o "$out" \
+ 	"$crt_dir/crt1.o" "$crt_dir/crti.o" \
+ 	"${objects[@]}" "${archives[@]}" "${ld_flags[@]}" \
+ 	"${ld_lib_dirs[@]}" "${resolved_libs[@]}" \

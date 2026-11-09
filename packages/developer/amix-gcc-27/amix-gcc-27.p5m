@@ -1,0 +1,89 @@
+#
+# developer/amix/gcc-27 -- gcc 2.7.2.3 and binutils 2.8.1 for AMIX
+# (m68k-cbm-sysv4), hosted on OpenIndiana.  Started from
+# manifests/sample-manifest.p5m; left out on purpose: binutils' host
+# development files (include/, lib/libbfd, libopcodes, libiberty), its generic
+# info pages, and the man pages of tools not built (configure, nlmconv).
+#
+set name=pkg.fmri \
+    value=pkg:/$(COMPONENT_FMRI)@$(IPS_COMPONENT_VERSION),$(BUILD_VERSION)
+set name=pkg.summary value="$(COMPONENT_SUMMARY)"
+set name=pkg.description \
+    value="The C compiler AMIX itself is built with: gcc 2.7.2.3 and binutils 2.8.1 for m68k-cbm-sysv4 (AMIX 2.1 on the Amiga 3000), hosted on OpenIndiana, with the AMIX fixes from amix-userland. m68k-cbm-sysv4-gcc is a wrapper that repairs gcc's SGS assembly before GNU as sees it. It links against the AMIX sysroot in /opt/m68k-amix-sysroot, which this package does not contain: copy it from a licensed AMIX installation."
+set name=info.classification value="$(COMPONENT_CLASSIFICATION)"
+set name=info.upstream-url value=$(COMPONENT_PROJECT_URL)
+set name=info.source-url value=$(COMPONENT_ARCHIVE_URL)
+set name=org.opensolaris.consolidation value=$(CONSOLIDATION)
+#
+# The tools
+file path=opt/amix-cross/bin/m68k-cbm-sysv4-addr2line
+file path=opt/amix-cross/bin/m68k-cbm-sysv4-ar
+file path=opt/amix-cross/bin/m68k-cbm-sysv4-as
+file path=opt/amix-cross/bin/m68k-cbm-sysv4-c++filt
+file path=opt/amix-cross/bin/m68k-cbm-sysv4-gasp
+file path=opt/amix-cross/bin/m68k-cbm-sysv4-gcc
+file path=opt/amix-cross/bin/m68k-cbm-sysv4-gcc.real
+file path=opt/amix-cross/bin/m68k-cbm-sysv4-ld
+file path=opt/amix-cross/bin/m68k-cbm-sysv4-nm
+file path=opt/amix-cross/bin/m68k-cbm-sysv4-objcopy
+file path=opt/amix-cross/bin/m68k-cbm-sysv4-objdump
+file path=opt/amix-cross/bin/m68k-cbm-sysv4-ranlib
+file path=opt/amix-cross/bin/m68k-cbm-sysv4-size
+file path=opt/amix-cross/bin/m68k-cbm-sysv4-strings
+file path=opt/amix-cross/bin/m68k-cbm-sysv4-strip
+#
+# gcc's own directory
+file path=opt/amix-cross/lib/gcc-lib/m68k-cbm-sysv4/$(COMPONENT_VERSION)/cc1 mode=0555
+file path=opt/amix-cross/lib/gcc-lib/m68k-cbm-sysv4/$(COMPONENT_VERSION)/cpp mode=0555
+file path=opt/amix-cross/lib/gcc-lib/m68k-cbm-sysv4/$(COMPONENT_VERSION)/libgcc.a
+file path=opt/amix-cross/lib/gcc-lib/m68k-cbm-sysv4/$(COMPONENT_VERSION)/specs
+#
+# binutils' tool directory
+hardlink path=opt/amix-cross/m68k-cbm-sysv4/bin/ar \
+    target=../../bin/m68k-cbm-sysv4-ar
+hardlink path=opt/amix-cross/m68k-cbm-sysv4/bin/as \
+    target=../../bin/m68k-cbm-sysv4-as
+hardlink path=opt/amix-cross/m68k-cbm-sysv4/bin/ld \
+    target=../../bin/m68k-cbm-sysv4-ld
+hardlink path=opt/amix-cross/m68k-cbm-sysv4/bin/nm \
+    target=../../bin/m68k-cbm-sysv4-nm
+hardlink path=opt/amix-cross/m68k-cbm-sysv4/bin/ranlib \
+    target=../../bin/m68k-cbm-sysv4-ranlib
+hardlink path=opt/amix-cross/m68k-cbm-sysv4/bin/strip \
+    target=../../bin/m68k-cbm-sysv4-strip
+file path=opt/amix-cross/m68k-cbm-sysv4/lib/ldscripts/m68kelf.x
+file path=opt/amix-cross/m68k-cbm-sysv4/lib/ldscripts/m68kelf.xbn
+file path=opt/amix-cross/m68k-cbm-sysv4/lib/ldscripts/m68kelf.xn
+file path=opt/amix-cross/m68k-cbm-sysv4/lib/ldscripts/m68kelf.xr
+file path=opt/amix-cross/m68k-cbm-sysv4/lib/ldscripts/m68kelf.xs
+file path=opt/amix-cross/m68k-cbm-sysv4/lib/ldscripts/m68kelf.xu
+# The AMIX sysroot the wrapper uses by default: /opt/m68k-amix-sysroot,
+# filled from a licensed AMIX installation and never packaged, so the link
+# dangles on purpose (pkg.tmp.allow-dangling: oi-userland's
+# transforms/symlinks would otherwise require a package delivering it, and
+# pkglint's userland.action002.0 reject the unresolvable target).
+link path=opt/amix-cross/m68k-cbm-sysv4/sysroot target=../../m68k-amix-sysroot \
+    pkg.linted.userland.action002.0=true pkg.tmp.allow-dangling=true
+#
+# Manual pages (binutils')
+file path=opt/amix-cross/man/man1/m68k-cbm-sysv4-addr2line.1
+file path=opt/amix-cross/man/man1/m68k-cbm-sysv4-ar.1
+file path=opt/amix-cross/man/man1/m68k-cbm-sysv4-as.1 mode=0444
+file path=opt/amix-cross/man/man1/m68k-cbm-sysv4-c++filt.1
+file path=opt/amix-cross/man/man1/m68k-cbm-sysv4-ld.1 mode=0444
+file path=opt/amix-cross/man/man1/m68k-cbm-sysv4-nm.1
+file path=opt/amix-cross/man/man1/m68k-cbm-sysv4-objcopy.1
+file path=opt/amix-cross/man/man1/m68k-cbm-sysv4-objdump.1
+file path=opt/amix-cross/man/man1/m68k-cbm-sysv4-ranlib.1
+file path=opt/amix-cross/man/man1/m68k-cbm-sysv4-size.1
+file path=opt/amix-cross/man/man1/m68k-cbm-sysv4-strings.1
+file path=opt/amix-cross/man/man1/m68k-cbm-sysv4-strip.1
+#
+license $(COMPONENT_LICENSE_FILE) license='$(COMPONENT_LICENSE)'
+#
+# The wrapper is a bash script ("#!/usr/bin/env bash") that runs perl on
+# every compile: neither shows up as an ELF or #! dependency of its own.
+depend type=require fmri=__TBD pkg.debug.depend.file=bash \
+    pkg.debug.depend.path=usr/bin
+depend type=require fmri=__TBD pkg.debug.depend.file=perl \
+    pkg.debug.depend.path=usr/bin

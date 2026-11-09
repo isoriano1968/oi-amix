@@ -1,0 +1,82 @@
+#!/usr/bin/bash
+#
+# m68k-amix-fixheaders -- (re)generate gcc's include-fixed directory for the
+# AMIX cross compiler from the AMIX sysroot.  Run as root after installing
+# developer/amix/gcc-14, and again whenever the sysroot's headers change.
+#
+#   m68k-amix-fixheaders [SYSROOT]        (default /opt/m68k-amix-sysroot)
+#
+# Why this is not in the package: include-fixed holds repaired copies of the
+# AMIX system headers (gcc's fixincludes, then amix-userland's K&R and C99
+# fixes).  Those are derived from a licensed AMIX installation and may not
+# be redistributed, so each machine builds them from its own sysroot.
+#
+# Steps, as amix-userland's toolchain/build-cross.sh does them at build time:
+#   1. gcc's own mkheaders (fixincludes over SYSROOT/usr/include);
+#   2. amix-userland's install-fixed-headers.sh (hand-written headers, the
+#      K&R prototype fixes, the C++ wrappers, the C99 additions).
+#
+set -e
+PREFIX=/opt/m68k-amix
+TARGET=m68k-elf
+GCCVER=14.2.0
+SYSROOT=${1:-/opt/m68k-amix-sysroot}
+SHARE=$PREFIX/share/amix-fixheaders
+FIXED=$PREFIX/lib/gcc/$TARGET/$GCCVER/include-fixed
+
+[ -f "$SYSROOT/usr/include/stdio.h" ] || {
+	echo "m68k-amix-fixheaders: no AMIX headers in $SYSROOT/usr/include" >&2
+	exit 1
+}
+[ -w "$PREFIX/lib/gcc/$TARGET/$GCCVER" ] || {
+	echo "m68k-amix-fixheaders: cannot write $PREFIX/lib/gcc/$TARGET/$GCCVER (run as root)" >&2
+	exit 1
+}
+# The amix-userland scripts use GNU find/grep/sed and bash.
+export PATH=/usr/gnu/bin:$PREFIX/bin:/usr/bin:/usr/sbin
+
+# mkheaders takes its header directory from install-tools/mkheaders.conf,
+# which already holds the configured sysroot (/opt/m68k-amix-sysroot/usr/
+# include); its optional second argument is a prefix put in FRONT of that
+# path.  Passing SYSROOT there made fixincludes look in
+# SYSROOT/opt/m68k-amix-sysroot/usr/include, find nothing, and leave
+# include-fixed without its repaired stdio.h, ctype.h, ... (OpenIndiana,
+# 2026-11-09: fileno() undeclared).  So mkheaders gets the prefix only, and
+# SYSROOT must be the sysroot the compiler was configured with.
+configured=$("$PREFIX/bin/$TARGET-gcc" -print-sysroot)
+[ "$(cd "$SYSROOT" && pwd -P)" = "$(cd "$configured" && pwd -P)" ] || {
+	echo "m68k-amix-fixheaders: $SYSROOT is not the compiler's sysroot ($configured)" >&2
+	echo "m68k-amix-fixheaders: put the AMIX files in $configured" >&2
+	exit 1
+}
+
+echo "== mkheaders: fixincludes over $configured/usr/include"
+rm -rf "$FIXED"
+"$PREFIX/libexec/gcc/$TARGET/$GCCVER/install-tools/mkheaders" "$PREFIX"
+
+# fixincludes follows the sysroot's absolute links -- usr/include/X11 ->
+# /usr/X/include, which the sysroot does not contain -- into the BUILD
+# HOST's directories: it copied the host's Xorg headers (root/usr/include/
+# xorg/...) into include-fixed/root and pointed include-fixed/X11 at them.
+# Those are not AMIX headers.  Drop the rooted tree and every link into it,
+# so include-fixed holds fixes of the sysroot's own headers only (as the
+# build-time include-fixed does; OpenIndiana, 2026-11-09).  The real cure
+# is a sysroot whose links stay inside it.
+if [ -d "$FIXED/root" ]; then
+	find "$FIXED" -type l | while read -r l; do
+		case "$(readlink "$l")" in
+		root/*|*/root/*) echo "== dropping $l -> $(readlink "$l") (host directory)"; rm -f "$l" ;;
+		esac
+	done
+	rm -rf "$FIXED/root"
+fi
+
+echo "== amix-userland install-fixed-headers.sh"
+work=$(mktemp -d "${TMPDIR:-/tmp}/amix-fixheaders.XXXXXX")
+trap 'rm -rf "$work"' EXIT
+cp -R "$SHARE/." "$work/"
+chmod 755 "$work"/toolchain/*.sh "$work"/toolchain/*.py
+printf '%s\n' "AMIX_SYSROOT=\"$SYSROOT\"" "TC_PREFIX=\"$PREFIX\"" \
+	"TC_TARGET=\"$TARGET\"" 'AMIX_CPU="-mcpu=68060"' > "$work/config.sh"
+bash "$work/toolchain/install-fixed-headers.sh"
+echo "m68k-amix-fixheaders: $(find "$FIXED" -type f | wc -l) headers in $FIXED"

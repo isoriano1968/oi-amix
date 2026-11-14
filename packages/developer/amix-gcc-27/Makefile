@@ -33,9 +33,8 @@
 #
 # The host binaries are 32-bit: gcc 2.7 was written for 32-bit hosts, and
 # its config/i386/xm-i386.h hard-codes HOST_BITS_PER_LONG 32.  The AMIX
-# sysroot is not part of the package: the link
-# /opt/amix-cross/m68k-cbm-sysv4/sysroot points at /opt/m68k-amix-sysroot,
-# which the user fills from a licensed AMIX installation.
+# sysroot is the package developer/amix/sysroot (required): the link
+# /opt/amix-cross/m68k-cbm-sysv4/sysroot points at /opt/m68k-amix-sysroot.
 #
 
 BUILD_BITS =		32
@@ -45,7 +44,7 @@ include ../../../make-rules/shared-macros.mk
 
 COMPONENT_NAME =	amix-gcc-27
 COMPONENT_VERSION =	2.7.2.3
-COMPONENT_REVISION =	1
+COMPONENT_REVISION =	2
 COMPONENT_SUMMARY =	AMIX cross compiler: gcc 2.7.2.3 and binutils 2.8.1
 COMPONENT_PROJECT_URL =	https://github.com/isoriano1968/amix-userland
 COMPONENT_FMRI =	developer/amix/gcc-27

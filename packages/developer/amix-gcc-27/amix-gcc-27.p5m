@@ -9,7 +9,7 @@ set name=pkg.fmri \
     value=pkg:/$(COMPONENT_FMRI)@$(IPS_COMPONENT_VERSION),$(BUILD_VERSION)
 set name=pkg.summary value="$(COMPONENT_SUMMARY)"
 set name=pkg.description \
-    value="The C compiler AMIX itself is built with: gcc 2.7.2.3 and binutils 2.8.1 for m68k-cbm-sysv4 (AMIX 2.1 on the Amiga 3000), hosted on OpenIndiana, with the AMIX fixes from amix-userland. m68k-cbm-sysv4-gcc is a wrapper that repairs gcc's SGS assembly before GNU as sees it. It links against the AMIX sysroot in /opt/m68k-amix-sysroot, which this package does not contain: copy it from a licensed AMIX installation."
+    value="The C compiler AMIX itself is built with: gcc 2.7.2.3 and binutils 2.8.1 for m68k-cbm-sysv4 (AMIX 2.1 on the Amiga 3000), hosted on OpenIndiana, with the AMIX fixes from amix-userland. m68k-cbm-sysv4-gcc is a wrapper that repairs gcc's SGS assembly before GNU as sees it. It links against the AMIX sysroot in /opt/m68k-amix-sysroot (developer/amix/sysroot, installed with it)."
 set name=info.classification value="$(COMPONENT_CLASSIFICATION)"
 set name=info.upstream-url value=$(COMPONENT_PROJECT_URL)
 set name=info.source-url value=$(COMPONENT_ARCHIVE_URL)
@@ -58,12 +58,14 @@ file path=opt/amix-cross/m68k-cbm-sysv4/lib/ldscripts/m68kelf.xr
 file path=opt/amix-cross/m68k-cbm-sysv4/lib/ldscripts/m68kelf.xs
 file path=opt/amix-cross/m68k-cbm-sysv4/lib/ldscripts/m68kelf.xu
 # The AMIX sysroot the wrapper uses by default: /opt/m68k-amix-sysroot,
-# filled from a licensed AMIX installation and never packaged, so the link
-# dangles on purpose (pkg.tmp.allow-dangling: oi-userland's
-# transforms/symlinks would otherwise require a package delivering it, and
-# pkglint's userland.action002.0 reject the unresolvable target).
+# delivered by developer/amix/sysroot (the Amiga-Corporation-approved AMIX
+# 2.1c files from amigaux/amix-system), a required package of this one.
+# pkgdepend resolves link targets only against the build machine's installed
+# packages, so the link keeps pkg.tmp.allow-dangling and the dependency is
+# stated explicitly below.
 link path=opt/amix-cross/m68k-cbm-sysv4/sysroot target=../../m68k-amix-sysroot \
     pkg.linted.userland.action002.0=true pkg.tmp.allow-dangling=true
+depend type=require fmri=developer/amix/sysroot@2.1.2
 #
 # Manual pages (binutils')
 file path=opt/amix-cross/man/man1/m68k-cbm-sysv4-addr2line.1

@@ -1,0 +1,370 @@
+#
+# This file and its contents are supplied under the terms of the
+# Common Development and Distribution License ("CDDL"), version 1.0.
+# You may only use this file in accordance with the terms of version
+# 1.0 of the CDDL.
+#
+# A full copy of the text of the CDDL should have accompanied this
+# source.  A copy of the CDDL is also available via the Internet at
+# http://www.illumos.org/license/CDDL.
+#
+
+#
+# developer/amix/x11r6.3 -- the stage of amix-userland's x11/x11r6.3 (its
+# manifest lists the same 331 files) in /opt/m68k-amix-sysroot.  Built on
+# 2026-11-15 byte-identical to the Linux workstation build of the same component.
+#
+set name=pkg.fmri value=pkg:/$(COMPONENT_FMRI)@$(IPS_COMPONENT_VERSION),$(BUILD_VERSION)
+set name=pkg.summary value="$(COMPONENT_SUMMARY)"
+set name=pkg.description \
+    value="X11R6.3 for AMIX in the AMIX sysroot /opt/m68k-amix-sysroot: the client libraries libX11, Xext, Xt, Xmu, Xaw, ICE, SM, Xi, Xau and Xdmcp as shared libraries (libX*.so.7, as on the AMIX systems), their headers in usr/x11r6/include, pkg-config files (x11, xt, xext, xmu, xaw, ice, sm, xi, xau, xdmcp), xauth, and the link stubs AMIX's own ld needs (usr/local/share/amix-stubs/x11r6.3). Cross-built from pristine X11R6.3 and amix-userland's AMIX port with developer/amix/gcc-14."
+set name=info.classification value="$(COMPONENT_CLASSIFICATION)"
+set name=info.upstream-url value=$(COMPONENT_PROJECT_URL)
+set name=info.source-url value=$(COMPONENT_ARCHIVE_URL)
+set name=org.opensolaris.consolidation value=$(CONSOLIDATION)
+#
+# m68k development files for the sysroot only; pkgdepend does not analyse
+# them and pkg(5)'s ELF checks are for host binaries
+<transform file link dir -> default facet.devel true>
+<transform file -> default pkg.depend.bypass-generate .*>
+<transform file -> default pkg.linted.userland.action001 true>
+<transform link -> default pkg.depend.bypass-generate .*>
+<transform link -> default pkg.linted.userland.action002.0 true>
+#
+license $(COMPONENT_LICENSE_FILE) license='$(COMPONENT_LICENSE)'
+#
+file path=opt/m68k-amix-sysroot/usr/local/share/amix-stubs/x11r6.3/LIST
+file path=opt/m68k-amix-sysroot/usr/local/share/amix-stubs/x11r6.3/libICE.so.7.s
+file path=opt/m68k-amix-sysroot/usr/local/share/amix-stubs/x11r6.3/libSM.so.7.s
+file path=opt/m68k-amix-sysroot/usr/local/share/amix-stubs/x11r6.3/libX11.so.7.s
+file path=opt/m68k-amix-sysroot/usr/local/share/amix-stubs/x11r6.3/libXau.so.7.s
+file path=opt/m68k-amix-sysroot/usr/local/share/amix-stubs/x11r6.3/libXaw.so.7.s
+file path=opt/m68k-amix-sysroot/usr/local/share/amix-stubs/x11r6.3/libXdmcp.so.7.s
+file path=opt/m68k-amix-sysroot/usr/local/share/amix-stubs/x11r6.3/libXext.so.7.s
+file path=opt/m68k-amix-sysroot/usr/local/share/amix-stubs/x11r6.3/libXi.so.7.s
+file path=opt/m68k-amix-sysroot/usr/local/share/amix-stubs/x11r6.3/libXmu.so.7.s
+file path=opt/m68k-amix-sysroot/usr/local/share/amix-stubs/x11r6.3/libXt.so.7.s
+file path=opt/m68k-amix-sysroot/usr/local/share/amix-stubs/x11r6.3/native.sh
+file path=opt/m68k-amix-sysroot/usr/local/share/amix-stubs/x11r6.3/xtinherit.c
+file path=opt/m68k-amix-sysroot/usr/x11r6/bin/xauth
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Composite.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/CompositeP.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/ConstrainP.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Constraint.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Core.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/CoreP.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/DECkeysym.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/HPkeysym.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/ICE/ICE.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/ICE/ICEconn.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/ICE/ICElib.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/ICE/ICEmsg.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/ICE/ICEproto.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/ICE/ICEutil.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Intrinsic.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/IntrinsicP.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Object.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/ObjectP.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/PEX5/PEX.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/PEX5/PEXlib.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/PEX5/PEXlibint.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/PEX5/PEXproto.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/PEX5/PEXprotost.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/PM/PM.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/PM/PMproto.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/RectObj.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/RectObjP.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/SM/SM.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/SM/SMlib.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/SM/SMproto.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Shell.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/ShellP.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/StringDefs.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Sunkeysym.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Vendor.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/VendorP.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/X.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/X10.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/XKBlib.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/XWDFile.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xalloca.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xatom.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xauth.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/AllWidgets.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/AsciiSink.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/AsciiSinkP.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/AsciiSrc.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/AsciiSrcP.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/AsciiText.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/AsciiTextP.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/Box.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/BoxP.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/Cardinals.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/Command.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/CommandP.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/Dialog.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/DialogP.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/Form.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/FormP.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/Grip.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/GripP.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/Label.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/LabelP.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/List.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/ListP.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/MenuButtoP.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/MenuButton.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/MultiSink.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/MultiSinkP.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/MultiSrc.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/MultiSrcP.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/Paned.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/PanedP.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/Panner.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/PannerP.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/Porthole.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/PortholeP.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/Repeater.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/RepeaterP.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/Reports.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/Scrollbar.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/ScrollbarP.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/Simple.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/SimpleMenP.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/SimpleMenu.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/SimpleP.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/Sme.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/SmeBSB.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/SmeBSBP.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/SmeLine.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/SmeLineP.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/SmeP.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/StripCharP.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/StripChart.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/Template.c
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/Template.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/TemplateP.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/Text.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/TextP.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/TextSink.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/TextSinkP.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/TextSrc.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/TextSrcP.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/Toggle.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/ToggleP.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/Tree.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/TreeP.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/VendorEP.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/Viewport.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/ViewportP.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/XawImP.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xaw/XawInit.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xcms.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xdmcp.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xfuncproto.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xfuncs.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xlib.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xlibint.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xlocale.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xmd.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xmu/Atoms.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xmu/CharSet.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xmu/CloseHook.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xmu/Converters.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xmu/CurUtil.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xmu/CvtCache.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xmu/DisplayQue.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xmu/Drawing.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xmu/Editres.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xmu/EditresP.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xmu/Error.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xmu/ExtAgent.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xmu/Initer.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xmu/Misc.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xmu/StdCmap.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xmu/StdSel.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xmu/SysUtil.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xmu/WidgetNode.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xmu/WinUtil.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xmu/Xct.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xmu/Xmu.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xos.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xos_r.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xosdefs.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xpoll.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xproto.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xprotostr.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xresource.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xthreads.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xtrans.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/Xutil.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/ap_keysym.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/1x1
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/2x2
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/Dashes
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/Down
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/Excl
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/FlipHoriz
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/FlipVert
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/Fold
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/Left
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/Right
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/RotateLeft
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/RotateRight
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/Stipple
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/Term
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/Up
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/black
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/black6
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/box6
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/boxes
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/calculator
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/cntr_ptr
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/cntr_ptrmsk
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/cross_weave
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/dimple1
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/dimple3
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/dot
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/dropbar7
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/dropbar8
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/escherknot
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/flagdown
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/flagup
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/flipped_gray
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/gray
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/gray1
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/gray3
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/grid16
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/grid2
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/grid4
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/grid8
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/hlines2
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/hlines3
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/icon
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/keyboard16
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/left_ptr
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/left_ptrmsk
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/letters
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/light_gray
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/mailempty
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/mailemptymsk
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/mailfull
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/mailfullmsk
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/mensetmanus
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/menu10
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/menu12
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/menu16
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/menu6
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/menu8
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/noletters
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/opendot
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/opendotMask
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/plaid
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/right_ptr
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/right_ptrmsk
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/root_weave
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/scales
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/sipb
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/star
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/starMask
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/stipple
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/target
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/terminal
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/tie_fighter
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/vlines2
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/vlines3
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/weird_size
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/wide_weave
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/wingdogs
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/woman
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/xfd_icon
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/xlogo11
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/xlogo16
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/xlogo32
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/xlogo64
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/bitmaps/xsnow
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/cursorfont.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/extensions/MITMisc.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/extensions/Print.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/extensions/Printstr.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/extensions/XI.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/extensions/XIE.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/extensions/XIElib.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/extensions/XIEproto.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/extensions/XIEprotost.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/extensions/XInput.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/extensions/XIproto.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/extensions/XKB.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/extensions/XKBbells.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/extensions/XKBconfig.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/extensions/XKBfile.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/extensions/XKBgeom.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/extensions/XKBproto.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/extensions/XKBrules.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/extensions/XKBsrv.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/extensions/XKBstr.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/extensions/XKM.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/extensions/XKMformat.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/extensions/XShm.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/extensions/XTest.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/extensions/Xag.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/extensions/Xagsrv.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/extensions/Xagstr.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/extensions/Xdbe.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/extensions/Xdbeproto.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/extensions/Xext.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/extensions/lbxbuf.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/extensions/lbxbufstr.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/extensions/lbxdeltastr.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/extensions/lbximage.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/extensions/lbxopts.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/extensions/lbxstr.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/extensions/lbxzlib.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/extensions/multibuf.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/extensions/record.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/extensions/recordstr.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/extensions/security.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/extensions/securstr.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/extensions/shape.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/extensions/sync.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/extensions/xtestext1.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/fonts/FS.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/fonts/FSlib.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/fonts/FSproto.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/fonts/fsmasks.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/keysym.h
+file path=opt/m68k-amix-sysroot/usr/x11r6/include/X11/keysymdef.h
+link path=opt/m68k-amix-sysroot/usr/x11r6/lib/libICE.so target=libICE.so.7
+file path=opt/m68k-amix-sysroot/usr/x11r6/lib/libICE.so.7
+link path=opt/m68k-amix-sysroot/usr/x11r6/lib/libSM.so target=libSM.so.7
+file path=opt/m68k-amix-sysroot/usr/x11r6/lib/libSM.so.7
+link path=opt/m68k-amix-sysroot/usr/x11r6/lib/libX11.so target=libX11.so.7
+file path=opt/m68k-amix-sysroot/usr/x11r6/lib/libX11.so.7
+link path=opt/m68k-amix-sysroot/usr/x11r6/lib/libXau.so target=libXau.so.7
+file path=opt/m68k-amix-sysroot/usr/x11r6/lib/libXau.so.7
+link path=opt/m68k-amix-sysroot/usr/x11r6/lib/libXaw.so target=libXaw.so.7
+file path=opt/m68k-amix-sysroot/usr/x11r6/lib/libXaw.so.7
+link path=opt/m68k-amix-sysroot/usr/x11r6/lib/libXdmcp.so target=libXdmcp.so.7
+file path=opt/m68k-amix-sysroot/usr/x11r6/lib/libXdmcp.so.7
+link path=opt/m68k-amix-sysroot/usr/x11r6/lib/libXext.so target=libXext.so.7
+file path=opt/m68k-amix-sysroot/usr/x11r6/lib/libXext.so.7
+link path=opt/m68k-amix-sysroot/usr/x11r6/lib/libXi.so target=libXi.so.7
+file path=opt/m68k-amix-sysroot/usr/x11r6/lib/libXi.so.7
+link path=opt/m68k-amix-sysroot/usr/x11r6/lib/libXmu.so target=libXmu.so.7
+file path=opt/m68k-amix-sysroot/usr/x11r6/lib/libXmu.so.7
+link path=opt/m68k-amix-sysroot/usr/x11r6/lib/libXt.so target=libXt.so.7
+file path=opt/m68k-amix-sysroot/usr/x11r6/lib/libXt.so.7
+file path=opt/m68k-amix-sysroot/usr/x11r6/lib/pkgconfig/ice.pc
+file path=opt/m68k-amix-sysroot/usr/x11r6/lib/pkgconfig/sm.pc
+file path=opt/m68k-amix-sysroot/usr/x11r6/lib/pkgconfig/x11.pc
+file path=opt/m68k-amix-sysroot/usr/x11r6/lib/pkgconfig/xau.pc
+file path=opt/m68k-amix-sysroot/usr/x11r6/lib/pkgconfig/xaw.pc
+file path=opt/m68k-amix-sysroot/usr/x11r6/lib/pkgconfig/xdmcp.pc
+file path=opt/m68k-amix-sysroot/usr/x11r6/lib/pkgconfig/xext.pc
+file path=opt/m68k-amix-sysroot/usr/x11r6/lib/pkgconfig/xi.pc
+file path=opt/m68k-amix-sysroot/usr/x11r6/lib/pkgconfig/xmu.pc
+file path=opt/m68k-amix-sysroot/usr/x11r6/lib/pkgconfig/xt.pc
+#
+# x11.pc requires amixc99
+depend type=require fmri=developer/amix/amixc99@1
+depend type=require fmri=developer/amix/sysroot@2.1.2

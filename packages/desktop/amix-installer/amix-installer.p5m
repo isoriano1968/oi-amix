@@ -1,0 +1,70 @@
+#
+# This file and its contents are supplied under the terms of the
+# Common Development and Distribution License ("CDDL"), version 1.0.
+# You may only use this file in accordance with the terms of version
+# 1.0 of the CDDL.
+#
+# A full copy of the text of the CDDL should have accompanied this
+# source.  A copy of the CDDL is also available via the Internet at
+# http://www.illumos.org/license/CDDL.
+#
+# Copyright 2026 isoriano1968
+#
+set name=pkg.fmri value=pkg:/$(COMPONENT_FMRI)@$(IPS_COMPONENT_VERSION),$(BUILD_VERSION)
+set name=pkg.summary value="$(COMPONENT_SUMMARY)"
+set name=pkg.description \
+    value="The AMIX Installer, a GTK 4 / libadwaita app: makes an Amiga UNIX (AMIX 2.1c) disk for an Amiga 3000/2500 or FS-UAE from your own AMIX core system, with the kernel, drivers, desktop and development packages that fit the machine, or installs packages into a running AMIX over the network. Commodore's AMIX files are never shipped; the installer starts from your own installation."
+set name=info.classification value="org.opensolaris.category.2008:$(COMPONENT_CLASSIFICATION)"
+set name=info.upstream-url value=$(COMPONENT_PROJECT_URL)
+set name=info.source-url value=$(COMPONENT_ARCHIVE_URL)
+set name=org.opensolaris.consolidation value=$(CONSOLIDATION)
+#
+# Python modules in the app's own directory (not on sys.path for
+# pkgdepend); the dependencies are named below
+<transform file path=usr/lib/amix-installer/.* -> default pkg.depend.bypass-generate .*>
+<transform file path=usr/bin/amix-installer -> default pkg.depend.bypass-generate .*>
+<transform file path=usr/share/icons/.* -> default restart_fmri svc:/application/desktop-cache/icon-cache:default>
+<transform file path=usr/share/applications/.* -> default restart_fmri svc:/application/desktop-cache/desktop-mime-cache:default>
+#
+license $(COMPONENT_LICENSE_FILE) license='$(COMPONENT_LICENSE)'
+#
+file path=usr/bin/amix-installer mode=0555
+file path=usr/lib/amix-installer/amix_installer/__init__.py
+file path=usr/lib/amix-installer/amix_installer/app.py
+file path=usr/lib/amix-installer/amix_installer/cli.py
+file path=usr/lib/amix-installer/amix_installer/fsuae.py
+file path=usr/lib/amix-installer/amix_installer/hdf.py
+file path=usr/lib/amix-installer/amix_installer/model.py
+file path=usr/lib/amix-installer/amix_installer/netinstall.py
+file path=usr/lib/amix-installer/amix_installer/plan.py
+file path=usr/lib/amix-installer/amix_installer/profile.py
+file path=usr/lib/amix-installer/amix_installer/rdb.py
+file path=usr/lib/amix-installer/amix_installer/safety.py
+file path=usr/lib/amix-installer/amix_installer/shot.py
+file path=usr/lib/amix-installer/amix_installer/svr4.py
+file path=usr/share/amix-installer/amix-logo.png
+file path=usr/share/amix-installer/style-dark.css
+file path=usr/share/amix-installer/style.css
+file path=usr/share/applications/org.amix.Installer.desktop
+file path=usr/share/icons/hicolor/128x128/apps/org.amix.AMIX.png
+file path=usr/share/icons/hicolor/128x128/apps/org.amix.Installer.png
+file path=usr/share/icons/hicolor/16x16/apps/org.amix.AMIX.png
+file path=usr/share/icons/hicolor/16x16/apps/org.amix.Installer.png
+file path=usr/share/icons/hicolor/24x24/apps/org.amix.AMIX.png
+file path=usr/share/icons/hicolor/24x24/apps/org.amix.Installer.png
+file path=usr/share/icons/hicolor/256x256/apps/org.amix.AMIX.png
+file path=usr/share/icons/hicolor/256x256/apps/org.amix.Installer.png
+file path=usr/share/icons/hicolor/32x32/apps/org.amix.AMIX.png
+file path=usr/share/icons/hicolor/32x32/apps/org.amix.Installer.png
+file path=usr/share/icons/hicolor/48x48/apps/org.amix.AMIX.png
+file path=usr/share/icons/hicolor/48x48/apps/org.amix.Installer.png
+file path=usr/share/icons/hicolor/512x512/apps/org.amix.AMIX.png
+file path=usr/share/icons/hicolor/512x512/apps/org.amix.Installer.png
+file path=usr/share/icons/hicolor/64x64/apps/org.amix.AMIX.png
+file path=usr/share/icons/hicolor/64x64/apps/org.amix.Installer.png
+#
+depend type=require fmri=library/desktop/gdk-pixbuf
+depend type=require fmri=library/desktop/gtk4
+depend type=require fmri=library/desktop/libadwaita
+depend type=require fmri=library/python/pygobject-39
+depend type=require fmri=runtime/python-39

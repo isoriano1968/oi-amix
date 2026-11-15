@@ -1,0 +1,46 @@
+#
+# This file and its contents are supplied under the terms of the
+# Common Development and Distribution License ("CDDL"), version 1.0.
+# You may only use this file in accordance with the terms of version
+# 1.0 of the CDDL.
+#
+# A full copy of the text of the CDDL should have accompanied this
+# source.  A copy of the CDDL is also available via the Internet at
+# http://www.illumos.org/license/CDDL.
+#
+#
+# Copyright 2026 isoriano1968
+#
+
+#
+# developer/amix/libxp -- the stage of amix-userland's x11/libxp (its manifest lists
+# every file) in /opt/m68k-amix-sysroot.
+#
+set name=pkg.fmri value=pkg:/$(COMPONENT_FMRI)@$(IPS_COMPONENT_VERSION),$(BUILD_VERSION)
+set name=pkg.summary value="$(COMPONENT_SUMMARY)"
+set name=pkg.description \
+    value="libXp.so.7, the X Print client library of X11R6.3, with xp.pc and its link stub, in the AMIX sysroot /opt/m68k-amix-sysroot/usr/x11r6. Cross-built from the pinned xc-1.tar.gz with developer/amix/gcc-14; CDE links it."
+set name=info.classification value="$(COMPONENT_CLASSIFICATION)"
+set name=info.upstream-url value=$(COMPONENT_PROJECT_URL)
+set name=info.source-url value=$(COMPONENT_ARCHIVE_URL)
+set name=org.opensolaris.consolidation value=$(CONSOLIDATION)
+#
+# m68k files for the AMIX sysroot only; pkgdepend does not analyse them and
+# pkg(5)'s ELF checks are for host binaries
+<transform file link dir -> default facet.devel true>
+<transform file -> default pkg.depend.bypass-generate .*>
+<transform file -> default pkg.linted.userland.action001 true>
+<transform link -> default pkg.depend.bypass-generate .*>
+<transform link -> default pkg.linted.userland.action002.0 true>
+<transform link -> default pkg.tmp.allow-dangling true>
+#
+license $(COMPONENT_LICENSE_FILE) license='$(COMPONENT_LICENSE)'
+#
+file path=opt/m68k-amix-sysroot/usr/local/share/amix-stubs/libxp/LIST
+file path=opt/m68k-amix-sysroot/usr/local/share/amix-stubs/libxp/libXp.so.7.s
+link path=opt/m68k-amix-sysroot/usr/x11r6/lib/libXp.so target=libXp.so.7
+file path=opt/m68k-amix-sysroot/usr/x11r6/lib/libXp.so.7
+file path=opt/m68k-amix-sysroot/usr/x11r6/lib/pkgconfig/xp.pc
+#
+depend type=require fmri=developer/amix/x11r6.3@6.3
+depend type=require fmri=developer/amix/sysroot@2.1.2

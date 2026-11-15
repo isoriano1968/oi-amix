@@ -1,0 +1,279 @@
+#
+# This file and its contents are supplied under the terms of the
+# Common Development and Distribution License ("CDDL"), version 1.0.
+# You may only use this file in accordance with the terms of version
+# 1.0 of the CDDL.
+#
+# A full copy of the text of the CDDL should have accompanied this
+# source.  A copy of the CDDL is also available via the Internet at
+# http://www.illumos.org/license/CDDL.
+#
+#
+# Copyright 2026 isoriano1968
+#
+
+#
+# developer/amix/motif -- the stage of amix-userland's desktop/motif (its manifest lists
+# every file) in /opt/m68k-amix-sysroot.
+#
+set name=pkg.fmri value=pkg:/$(COMPONENT_FMRI)@$(IPS_COMPONENT_VERSION),$(BUILD_VERSION)
+set name=pkg.summary value="$(COMPONENT_SUMMARY)"
+set name=pkg.description \
+    value="Motif 2.3.8 for AMIX in the AMIX sysroot /opt/m68k-amix-sysroot/usr/motif: libXm.so.4 and libMrm.so.4, their headers and pkg-config files (xm, mrm), mwm with system.mwmrc and its app-defaults, and the link stubs. Cross-built from the pinned motif-2.3.8.tar.gz and amix-userland's patches with developer/amix/gcc-14."
+set name=info.classification value="$(COMPONENT_CLASSIFICATION)"
+set name=info.upstream-url value=$(COMPONENT_PROJECT_URL)
+set name=info.source-url value=$(COMPONENT_ARCHIVE_URL)
+set name=org.opensolaris.consolidation value=$(CONSOLIDATION)
+#
+# m68k files for the AMIX sysroot only; pkgdepend does not analyse them and
+# pkg(5)'s ELF checks are for host binaries
+<transform file link dir -> default facet.devel true>
+<transform file -> default pkg.depend.bypass-generate .*>
+<transform file -> default pkg.linted.userland.action001 true>
+<transform link -> default pkg.depend.bypass-generate .*>
+<transform link -> default pkg.linted.userland.action002.0 true>
+<transform link -> default pkg.tmp.allow-dangling true>
+#
+license $(COMPONENT_LICENSE_FILE) license='$(COMPONENT_LICENSE)'
+#
+file path=opt/m68k-amix-sysroot/usr/local/share/amix-stubs/motif/LIST
+file path=opt/m68k-amix-sysroot/usr/local/share/amix-stubs/motif/libMrm.so.4.s
+file path=opt/m68k-amix-sysroot/usr/local/share/amix-stubs/motif/libXm.so.4.s
+file path=opt/m68k-amix-sysroot/usr/motif/bin/mwm
+file path=opt/m68k-amix-sysroot/usr/motif/include/Mrm/MrmAppl.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Mrm/MrmDecls.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Mrm/MrmPublic.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Mrm/MrmosI.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/AccColorT.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/AccTextT.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/ActivatableT.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/ArrowB.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/ArrowBG.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/ArrowBGP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/ArrowBP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/AtomMgr.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/BaseClassP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/BulletinB.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/BulletinBP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/ButtonBox.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/ButtonBoxP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/CacheP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/CareVisualT.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/CascadeB.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/CascadeBG.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/CascadeBGP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/CascadeBP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/ClipWindowP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/ColorObjP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/ColorP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/ColorS.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/ColorSP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/Column.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/ColumnP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/ComboBox.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/ComboBox2.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/ComboBox2P.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/ComboBoxP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/Command.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/CommandP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/ContItemT.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/Container.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/ContainerP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/ContainerT.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/CutPaste.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/DataF.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/DataFP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/DataFSelP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/DesktopP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/DialogS.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/DialogSEP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/DialogSP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/DialogSavvyT.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/Display.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/DisplayP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/DragC.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/DragCP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/DragDrop.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/DragIcon.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/DragIconP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/DragOverS.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/DragOverSP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/DrawP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/DrawUtils.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/DrawingA.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/DrawingAP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/DrawnB.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/DrawnBP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/DropDown.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/DropDownP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/DropSMgr.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/DropSMgrP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/DropTrans.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/DropTransP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/Ext.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/Ext18List.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/Ext18ListP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/ExtObjectP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/ExtP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/FileSB.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/FileSBP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/FontS.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/FontSP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/Form.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/FormP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/Frame.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/FrameP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/Gadget.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/GadgetP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/GrabShell.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/GrabShellP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/Hierarchy.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/HierarchyP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/IconBox.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/IconBoxP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/IconButton.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/IconButtonP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/IconFile.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/IconFileP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/IconG.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/IconGP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/IconH.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/IconHP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/JoinSideT.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/Label.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/LabelG.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/LabelGP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/LabelP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/LayoutT.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/List.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/ListP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/MainW.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/MainWP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/Manager.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/ManagerP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/MenuProcP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/MenuShell.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/MenuShellP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/MenuStateP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/MenuT.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/MenuUtilP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/MessageB.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/MessageBP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/MultiList.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/MultiListP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/MwmUtil.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/NavigatorT.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/Notebook.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/NotebookP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/Outline.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/OutlineP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/Paned.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/PanedP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/PanedW.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/PanedWP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/Picture.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/PictureP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/PointInT.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/Primitive.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/PrimitiveP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/Print.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/PrintSP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/Protocols.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/ProtocolsP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/PushB.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/PushBG.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/PushBGP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/PushBP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/RCLayoutP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/RCMenuP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/RepType.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/RowColumn.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/RowColumnP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/SSpinB.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/SSpinBP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/SashP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/Scale.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/ScaleP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/Screen.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/ScreenP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/ScrollBar.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/ScrollBarP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/ScrollFrameT.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/ScrolledW.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/ScrolledWP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/SelectioB.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/SelectioBP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/SeparatoG.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/SeparatoGP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/Separator.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/SeparatorP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/ShellEP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/SlideC.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/SlideCP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/SpecRenderT.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/SpinB.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/SpinBP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/TabBox.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/TabBoxP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/TabList.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/TabStack.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/TabStackP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/TakesDefT.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/TearOffBP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/TearOffP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/Text.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/TextF.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/TextFP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/TextFSelP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/TextInP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/TextOutP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/TextP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/TextSelP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/TextStrSoP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/ToggleB.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/ToggleBG.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/ToggleBGP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/ToggleBP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/ToolTipCT.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/ToolTipT.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/TraitP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/Transfer.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/TransferP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/TransferT.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/TransltnsP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/TravConT.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/Tree.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/TreeP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/TxtPropCv.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/UnhighlightT.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/UnitTypeT.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/VaSimpleP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/VendorS.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/VendorSEP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/VendorSP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/VirtKeys.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/VirtKeysP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/Xm.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/XmAll.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/XmIm.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/XmP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/XmStrDefs.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/XmStrDefs22.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/XmStrDefs23.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/Xmfuncs.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/XmosP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/Xmos_r.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/Xmpoll.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/XpmP.h
+file path=opt/m68k-amix-sysroot/usr/motif/include/Xm/xmlist.h
+file path=opt/m68k-amix-sysroot/usr/motif/lib/X11/system.mwmrc
+link path=opt/m68k-amix-sysroot/usr/motif/lib/libMrm.so target=libMrm.so.4
+file path=opt/m68k-amix-sysroot/usr/motif/lib/libMrm.so.4
+link path=opt/m68k-amix-sysroot/usr/motif/lib/libXm.so target=libXm.so.4
+file path=opt/m68k-amix-sysroot/usr/motif/lib/libXm.so.4
+file path=opt/m68k-amix-sysroot/usr/motif/lib/pkgconfig/mrm.pc
+file path=opt/m68k-amix-sysroot/usr/motif/lib/pkgconfig/xm.pc
+file path=opt/m68k-amix-sysroot/usr/x11r6/lib/X11/app-defaults/Mwm
+#
+depend type=require fmri=developer/amix/x11r6.3@6.3
+depend type=require fmri=developer/amix/sysroot@2.1.2

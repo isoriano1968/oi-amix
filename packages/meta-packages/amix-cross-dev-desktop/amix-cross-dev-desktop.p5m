@@ -1,0 +1,29 @@
+#
+# This file and its contents are supplied under the terms of the
+# Common Development and Distribution License ("CDDL"), version 1.0.
+# You may only use this file in accordance with the terms of version
+# 1.0 of the CDDL.
+#
+# A full copy of the text of the CDDL should have accompanied this
+# source.  A copy of the CDDL is also available via the Internet at
+# http://www.illumos.org/license/CDDL.
+#
+#
+# The members, each with the version this set was tested with (minimum
+# versions; a newer one satisfies them).  Change a version here when a
+# member moves, and the COMPONENT_VERSION of this package with it.
+#
+
+set name=pkg.fmri value=pkg:/$(COMPONENT_FMRI)@$(IPS_COMPONENT_VERSION),$(BUILD_VERSION)
+set name=pkg.summary value="$(COMPONENT_SUMMARY)"
+set name=pkg.description \
+    value="Installs everything needed to cross-build Amiga UNIX (AMIX) X11, Motif and CDE applications: the AMIX cross development system (sysroot, gcc 2.7.2.3, gcc 14.2.0), libamixc99, and the shared X11R6.3, X Print (libXp), Motif 2.3.8 and CDE 2.2.4 libraries and headers in the AMIX sysroot (/opt/m68k-amix-sysroot)."
+set name=info.classification value="$(COMPONENT_CLASSIFICATION)"
+set name=info.upstream-url value=$(COMPONENT_PROJECT_URL)
+set name=org.opensolaris.consolidation value=$(CONSOLIDATION)
+depend type=require fmri=metapackages/amix-cross-dev@1.0
+depend type=require fmri=developer/amix/amixc99
+depend type=require fmri=developer/amix/x11r6.3@6.3
+depend type=require fmri=developer/amix/libxp@6.3
+depend type=require fmri=developer/amix/motif@2.3.8
+depend type=require fmri=developer/amix/cde@2.2.4

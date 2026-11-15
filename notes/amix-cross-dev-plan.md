@@ -176,3 +176,20 @@ installs or links against the sysroot:
   sysroot dependency; needs the VM free (clang-23 build runs alone), and the
   VM's hand-copied /opt/m68k-amix-sysroot replaced by the package (ask).
   Then gcc-14 + amix-cross-dev on the Mac, smoke test complete.
+
+## Status 2026-11-15 morning
+
+- developer/amix/gcc-14 14.2.0-2026.0.0.2 published to the VM's ~/amix-repo:
+  include-fixed made at build time from developer/amix/sysroot and packaged
+  (498 files + the X11 link; root/ holds fixincludes' copies of the
+  sysroot's own X headers, reached through usr/include/X11 -> ../X/include),
+  checked by files/check-include-fixed.sh; requires the sysroot. The
+  fixheaders tool is gone.
+- Build traps: oi-userland leaves COMPONENT_MAKE_JOBS unset, so "-j" had no
+  limit and the VM ran out of memory overnight (now 12); $(BASH) is not set
+  in oi-userland (scripts run with /usr/bin/bash); there is no
+  /usr/gnu/bin/realpath on OI; pkgdepend cannot resolve a link to a
+  directory, so the X11 link bypasses generation.
+- Mac Pro: amix-cross-dev installed (sysroot, gcc-27, gcc-14 from oi-local,
+  no new BE); tools/amix-smoke-test.sh / passes for gcc-27, gcc-14 and g++;
+  an Xlib + XShm + stdint + gettimeofday program compiles with gcc-14.

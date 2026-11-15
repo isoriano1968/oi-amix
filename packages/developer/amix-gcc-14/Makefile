@@ -31,9 +31,9 @@
 # illumos the gettext 0.22 that download_prerequisites also adds does not
 # compile: its localename.c declares getlocalename_l against <locale.h>.)
 #
-# The AMIX sysroot is not part of the package: --with-sysroot names
-# /opt/m68k-amix-sysroot, which the user fills from a licensed AMIX
-# installation.
+# The AMIX sysroot is the package developer/amix/sysroot (required; on the
+# build machine it must be installed, not hand-copied): --with-sysroot
+# names /opt/m68k-amix-sysroot.
 #
 
 BUILD_BITS =		64
@@ -43,7 +43,7 @@ include ../../../make-rules/shared-macros.mk
 
 COMPONENT_NAME =	amix-gcc-14
 COMPONENT_VERSION =	14.2.0
-COMPONENT_REVISION =	1
+COMPONENT_REVISION =	2
 COMPONENT_SUMMARY =	AMIX cross compiler: gcc 14.2.0 (C, C++) and binutils 2.43.1
 COMPONENT_PROJECT_URL =	https://github.com/isoriano1968/amix-userland
 COMPONENT_FMRI =	developer/amix/gcc-14
@@ -67,6 +67,10 @@ COMPONENT_SRC_2 =	amix-userland-$(AMIX_USERLAND_COMMIT)
 COMPONENT_ARCHIVE_2 =	$(COMPONENT_SRC_2).tar.gz
 COMPONENT_ARCHIVE_HASH_2 = sha256:952b2c4a535f57489fb20c3aa0c633af09b2f5c96fd11f31cd97141a09b096f3
 COMPONENT_ARCHIVE_URL_2 = https://github.com/isoriano1968/amix-userland/archive/$(AMIX_USERLAND_COMMIT).tar.gz
+
+# oi-userland does not set COMPONENT_MAKE_JOBS: an empty one made "-j"
+# without a limit, and the gcc build ran the VM out of memory (2026-11-15)
+COMPONENT_MAKE_JOBS ?= 12
 
 include $(WS_MAKE_RULES)/common.mk
 
@@ -152,6 +156,8 @@ PATH=$(BUILD_PATH) $(BASH) $(AMIX14)/toolchain/install-specs.sh
 $(CP) $(PROTO_PREFIX)/$(GCC_LIBDIR)/specs $(@D)/gcc/gcc/specs
 PATH=$(BUILD_PATH) $(GMAKE) -C $(@D)/gcc -j$(COMPONENT_MAKE_JOBS) $(MAKE_ARGS) all-gcc
 PATH=$(BUILD_PATH) $(BASH) $(AMIX14)/toolchain/install-fixed-headers.sh
+$(CP) $(AMIX14)/compat/include/stdint.h $(PROTO_PREFIX)/$(GCC_LIBDIR)/include-fixed/stdint.h
+/usr/bin/bash $(COMPONENT_DIR)/files/check-include-fixed.sh $(PROTO_PREFIX)/$(GCC_LIBDIR)/include-fixed
 $(MKDIR) $(@D)/gcc/gcc/include-fixed
 cp -R $(PROTO_PREFIX)/$(GCC_LIBDIR)/include-fixed/. $(@D)/gcc/gcc/include-fixed/
 PATH=$(BUILD_PATH) $(BASH) $(AMIX14)/tools/build-compat.sh
@@ -162,32 +168,20 @@ PATH=$(BUILD_PATH) $(GMAKE) -C $(@D)/gcc -j$(COMPONENT_MAKE_JOBS) $(MAKE_ARGS) a
 PATH=$(BUILD_PATH) $(GMAKE) -C $(@D)/gcc $(MAKE_ARGS) install-target-libstdc++-v3 DESTDIR=$(PROTO_DIR)
 endef
 
-# install: everything is in the proto area already.  First the check
-# rebuild-target-libs.sh makes, that no C library function got C++ linkage
-# in libstdc++ (the C++ header wrappers were in effect).
-#
-# Then, as in the Solaris project's component: include-fixed is NOT
-# packaged (see amix-gcc-14.p5m).  It holds repaired copies of the AMIX
-# system headers, which may not be redistributed.  The package carries what
-# makes it on each machine instead: bin/m68k-amix-fixheaders (files/, the
-# Solaris project's script, unchanged) and, in share/amix-fixheaders, the
-# amix-userland scripts and hand-written headers that script runs.  Root
-# runs it once after installing the package.
+# install: everything is in the proto area already, include-fixed too
+# (packaged since revision 2, see amix-gcc-14.p5m).  The check
+# rebuild-target-libs.sh makes: no C library function got C++ linkage in
+# libstdc++ (the C++ header wrappers were in effect).
 define COMPONENT_INSTALL_ACTION
 bad=$$($(PROTO_PREFIX)/bin/$(TARGET)-nm $(PROTO_PREFIX)/$(TARGET)/lib/libstdc++.a 2>/dev/null | \
 	grep -c '_Z4freePv\|_Z6mallocm\|_Z5abortv\|_Z8strerrori' || true); \
 	test "$$bad" = 0 || { echo "libstdc++.a has $$bad mangled C library symbols"; exit 1; }
-$(MKDIR) $(PROTO_PREFIX)/share/amix-fixheaders/toolchain $(PROTO_PREFIX)/share/amix-fixheaders/compat/include
-$(CP) $(AMIX14)/toolchain/install-fixed-headers.sh $(AMIX14)/toolchain/make-kandr-fixes.py \
-	$(AMIX14)/toolchain/make-cxx-wrappers.sh $(PROTO_PREFIX)/share/amix-fixheaders/toolchain/
-cp -R $(AMIX14)/compat/include/. $(PROTO_PREFIX)/share/amix-fixheaders/compat/include/
-$(CP) $(SOURCE_DIR_2)/LICENSE $(PROTO_PREFIX)/share/amix-fixheaders/LICENSE
-$(CP) $(COMPONENT_DIR)/files/m68k-amix-fixheaders $(PROTO_PREFIX)/bin/m68k-amix-fixheaders
-chmod 755 $(PROTO_PREFIX)/bin/m68k-amix-fixheaders
+/usr/bin/bash $(COMPONENT_DIR)/files/check-include-fixed.sh $(PROTO_PREFIX)/$(GCC_LIBDIR)/include-fixed
 endef
 
 REQUIRED_PACKAGES += SUNWcs
 REQUIRED_PACKAGES += compress/zstd
+REQUIRED_PACKAGES += developer/amix/sysroot
 REQUIRED_PACKAGES += library/gmp
 REQUIRED_PACKAGES += library/mpc
 REQUIRED_PACKAGES += library/mpfr

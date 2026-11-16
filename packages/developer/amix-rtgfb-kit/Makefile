@@ -57,7 +57,7 @@ COMPONENT_BUILD_ACTION = true
 define COMPONENT_INSTALL_ACTION
 $(RM) -r $(PROTO_DIR)$(KIT_DIR)
 AMIX_ROOT=$(AMIX_SYSROOT) $(SHELL) $(RTGFB_PORT)/make-kit-030.sh $(PROTO_DIR)$(KIT_DIR)
-cd $(PROTO_DIR)$(KIT_DIR) && $(GNUBIN)/sha256sum -c KIT.sha256
+cd $(PROTO_DIR)$(KIT_DIR) && /usr/bin/sha256sum -c KIT.sha256
 $(RM) -r $(RTGFB_PORT)/build
 endef
 

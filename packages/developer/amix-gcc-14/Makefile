@@ -43,7 +43,7 @@ include ../../../make-rules/shared-macros.mk
 
 COMPONENT_NAME =	amix-gcc-14
 COMPONENT_VERSION =	14.2.0
-COMPONENT_REVISION =	3
+COMPONENT_REVISION =	4
 COMPONENT_SUMMARY =	AMIX cross compiler: gcc 14.2.0 (C, C++) and binutils 2.43.1
 COMPONENT_PROJECT_URL =	https://github.com/isoriano1968/amix-userland
 COMPONENT_FMRI =	developer/amix/gcc-14
@@ -108,6 +108,17 @@ COMPONENT_PREP_ACTION = \
 HOST_CC =		$(GCC_ROOT)/bin/gcc
 HOST_CXX =		$(GCC_ROOT)/bin/g++
 MAKE_ARGS =		MAKEINFO=true
+# No build host paths (revision 4): the host tools get make-rules'
+# gcc_PATH_MAP (tools/oi-userland-neutral-paths.patch) through CC/CXX, the
+# target libraries (libgcc, libstdc++, their debug info) the same maps
+# through the new cross compiler and gas.
+TARGET_PATH_MAP =	-ffile-prefix-map=$(HOME)=/build \
+			-ffile-prefix-map=$(WS_TOP)=/usr/src/oi-userland \
+			-Wa,--debug-prefix-map,$(HOME)=/build \
+			-Wa,--debug-prefix-map,$(WS_TOP)=/usr/src/oi-userland
+MAKE_ARGS +=		"CFLAGS_FOR_TARGET=-g -O2 $(TARGET_PATH_MAP)"
+MAKE_ARGS +=		"CXXFLAGS_FOR_TARGET=-g -O2 $(TARGET_PATH_MAP)"
+HOST_ENV =		CC="$(HOST_CC) $(gcc_PATH_MAP)" CXX="$(HOST_CXX) $(gcc_PATH_MAP)"
 BUILD_PATH =		$(PROTO_PREFIX)/bin:$(PATH)
 
 # The configure options are build-cross.sh's; see the comments there for why
@@ -130,7 +141,7 @@ COMPONENT_COPY_ACTION =
 
 COMPONENT_CONFIGURE_ACTION = \
 	$(MKDIR) $(@D)/binutils && cd $(@D)/binutils && \
-	CC=$(HOST_CC) CXX=$(HOST_CXX) $(SOURCE_DIR_1)/configure \
+	$(HOST_ENV) $(SOURCE_DIR_1)/configure \
 		--target=$(TARGET) --prefix=$(AMIX_PREFIX) \
 		--with-sysroot=$(AMIX_SYSROOT) \
 		--disable-nls --disable-werror --disable-gdb --disable-sim \
@@ -148,8 +159,10 @@ define COMPONENT_BUILD_ACTION
 $(GMAKE) -C $(@D)/binutils -j$(COMPONENT_MAKE_JOBS) $(MAKE_ARGS)
 $(GMAKE) -C $(@D)/binutils install DESTDIR=$(PROTO_DIR) $(MAKE_ARGS)
 $(RM) -r $(@D)/gcc; $(MKDIR) $(@D)/gcc
-cd $(@D)/gcc && PATH=$(BUILD_PATH) CC=$(HOST_CC) CXX=$(HOST_CXX) \
-	$(SOURCE_DIR)/configure $(GCC_CONFIGURE_OPTIONS)
+# configure by a relative path: gcc -v prints "Configured with: <path to
+# configure> ...", and that string is in every driver (no build path).
+cd $(@D)/gcc && PATH=$(BUILD_PATH) $(HOST_ENV) \
+	../../../$(COMPONENT_SRC)/configure $(GCC_CONFIGURE_OPTIONS)
 PATH=$(BUILD_PATH) $(GMAKE) -C $(@D)/gcc -j$(COMPONENT_MAKE_JOBS) $(MAKE_ARGS) all-gcc
 PATH=$(BUILD_PATH) $(GMAKE) -C $(@D)/gcc $(MAKE_ARGS) install-gcc DESTDIR=$(PROTO_DIR)
 PATH=$(BUILD_PATH) $(BASH) $(AMIX14)/toolchain/install-specs.sh
@@ -177,6 +190,10 @@ bad=$$($(PROTO_PREFIX)/bin/$(TARGET)-nm $(PROTO_PREFIX)/$(TARGET)/lib/libstdc++.
 	grep -c '_Z4freePv\|_Z6mallocm\|_Z5abortv\|_Z8strerrori' || true); \
 	test "$$bad" = 0 || { echo "libstdc++.a has $$bad mangled C library symbols"; exit 1; }
 /usr/bin/bash $(COMPONENT_DIR)/files/check-include-fixed.sh $(PROTO_PREFIX)/$(GCC_LIBDIR)/include-fixed
+# libamixc99.a is built for the 68060 (the toolchain build keeps its copy
+# beside xgcc): not packaged, so the specs' -lamixc99 resolves to the
+# sysroot's shared /usr/lib/libamixc99.so.1 and programs pass the 030 gate.
+$(RM) $(PROTO_PREFIX)/$(TARGET)/lib/libamixc99.a
 endef
 
 REQUIRED_PACKAGES += SUNWcs

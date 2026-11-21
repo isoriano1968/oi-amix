@@ -31,17 +31,26 @@ license $(COMPONENT_LICENSE_FILE) license='$(COMPONENT_LICENSE)'
 file path=usr/bin/amix-installer mode=0555
 file path=usr/lib/amix-installer/amix_installer/__init__.py
 file path=usr/lib/amix-installer/amix_installer/app.py
+file path=usr/lib/amix-installer/amix_installer/build.py
+file path=usr/lib/amix-installer/amix_installer/buildpage.py
 file path=usr/lib/amix-installer/amix_installer/cli.py
 file path=usr/lib/amix-installer/amix_installer/fsuae.py
 file path=usr/lib/amix-installer/amix_installer/hdf.py
+file path=usr/lib/amix-installer/amix_installer/kernel.py
 file path=usr/lib/amix-installer/amix_installer/model.py
 file path=usr/lib/amix-installer/amix_installer/netinstall.py
 file path=usr/lib/amix-installer/amix_installer/plan.py
 file path=usr/lib/amix-installer/amix_installer/profile.py
 file path=usr/lib/amix-installer/amix_installer/rdb.py
+file path=usr/lib/amix-installer/amix_installer/scsicard.py
+file path=usr/lib/amix-installer/amix_installer/serve.py
+file path=usr/lib/amix-installer/amix_installer/servepage.py
 file path=usr/lib/amix-installer/amix_installer/safety.py
 file path=usr/lib/amix-installer/amix_installer/shot.py
 file path=usr/lib/amix-installer/amix_installer/svr4.py
+file path=usr/lib/amix-installer/tools/amix-base-libs
+file path=usr/lib/amix-installer/tools/amix-publish mode=0555
+file path=usr/lib/amix-installer/tools/amix_needed.py
 file path=usr/share/amix-installer/amix-logo.png
 file path=usr/share/amix-installer/style-dark.css
 file path=usr/share/amix-installer/style.css
@@ -68,3 +77,20 @@ depend type=require fmri=library/desktop/gtk4
 depend type=require fmri=library/desktop/libadwaita
 depend type=require fmri=library/python/pygobject-39
 depend type=require fmri=runtime/python-39
+# the boot disk (pvmk.hdf) and the Picasso II kernel relink
+depend type=require fmri=developer/amix/pvmk
+# the Build tab: git (the source and its revisions), GNU make (the recipes), curl
+# (components that fetch their upstream source)
+depend type=require fmri=developer/versioning/git
+depend type=require fmri=developer/build/gnu-make
+depend type=require fmri=web/curl
+# tools/amix-pkg-config runs the host pkg-config over the sysroot's .pc files
+depend type=require fmri=developer/build/pkg-config
+# the Build tab: the AMIX compiler without the 68060-built libamixc99.a, and the base sysroot
+depend type=optional fmri=developer/amix/gcc-14@14.2.0-2026.0.0.4
+depend type=optional fmri=developer/amix/sysroot
+depend type=require fmri=developer/amix/rtgfb-kit
+# the 68040/060 kernels, the driver chains and the root stamp
+depend type=require fmri=developer/amix/kernel-kit-tools
+# the AMIX packages the network install serves
+depend type=require fmri=desktop/amix-installer/repository@2026.11.21.11

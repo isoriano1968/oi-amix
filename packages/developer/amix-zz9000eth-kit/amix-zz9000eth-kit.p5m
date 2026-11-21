@@ -1,0 +1,41 @@
+#
+# This file and its contents are supplied under the terms of the
+# Common Development and Distribution License ("CDDL"), version 1.0.
+# You may only use this file in accordance with the terms of version
+# 1.0 of the CDDL.
+#
+# A full copy of the text of the CDDL should have accompanied this
+# source.  A copy of the CDDL is also available via the Internet at
+# http://www.illumos.org/license/CDDL.
+#
+
+set name=pkg.fmri value=pkg:/$(COMPONENT_FMRI)@$(IPS_COMPONENT_VERSION),$(BUILD_VERSION)
+set name=pkg.summary value="Kernel driver kit(s) for the AMIX Installer: ZZ9000 Ethernet (/dev/zz0, major 52), derived from z3660eth. No AMIX kernel is included."
+set name=pkg.description \
+    value="zz9000eth kernel driver kit for the AMIX Installer: /dev/zz0, major 52, the MNT ZZ9000 Ethernet (STREAMS/DLPI), derived from the Z3660 Ethernet driver."
+set name=info.classification value="$(COMPONENT_CLASSIFICATION)"
+set name=info.upstream-url value=$(COMPONENT_PROJECT_URL)
+set name=info.source-url value=$(COMPONENT_ARCHIVE_URL)
+set name=org.opensolaris.consolidation value=$(CONSOLIDATION)
+#
+# m68k objects for the AMIX kernel, not for this host
+<transform file -> default pkg.depend.bypass-generate .*>
+<transform file -> default pkg.linted.userland.action001 true>
+#
+license $(COMPONENT_LICENSE_FILE) license='$(COMPONENT_LICENSE)'
+#
+file path=usr/share/amix-installer/zz9000eth/KIT.info
+file path=usr/share/amix-installer/zz9000eth/KIT.sha256
+file path=usr/share/amix-installer/zz9000eth/check_relink_relocs.py
+file path=usr/share/amix-installer/zz9000eth/patch_io_init.py
+file path=usr/share/amix-installer/zz9000eth/patch_zz9000eth_cdevsw.py
+file path=usr/share/amix-installer/zz9000eth/zz9000eth_030.o
+file path=usr/share/amix-installer/zz9000eth/zz9000eth_pad.o
+file path=usr/share/amix-installer/zz9000eth-040/KIT.info
+file path=usr/share/amix-installer/zz9000eth-040/KIT.sha256
+file path=usr/share/amix-installer/zz9000eth-040/check_relink_relocs.py
+file path=usr/share/amix-installer/zz9000eth-040/patch_io_init.py
+file path=usr/share/amix-installer/zz9000eth-040/patch_zz9000eth_cdevsw.py
+file path=usr/share/amix-installer/zz9000eth-040/zz9000eth_040.o
+file path=usr/share/amix-installer/zz9000eth-040/zz9000eth_kvmap.o
+file path=usr/share/amix-installer/zz9000eth-040/zz9000eth_pad.o

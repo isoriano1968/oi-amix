@@ -1,0 +1,363 @@
+#
+# This file and its contents are supplied under the terms of the
+# Common Development and Distribution License ("CDDL"), version 1.0.
+# You may only use this file in accordance with the terms of version
+# 1.0 of the CDDL.
+#
+# A full copy of the text of the CDDL should have accompanied this
+# source.  A copy of the CDDL is also available via the Internet at
+# http://www.illumos.org/license/CDDL.
+#
+
+set name=pkg.fmri value=pkg:/$(COMPONENT_FMRI)@$(IPS_COMPONENT_VERSION),$(BUILD_VERSION)
+set name=pkg.summary value="$(COMPONENT_SUMMARY)"
+set name=pkg.description \
+    value="Kernel kit tools for the AMIX Installer: the shared pieces of every driver kit relink (the io_init and level-2 interrupt chains, the loader relocation check), stamp-rootcard.py and kernel-nswap.py, and the kernel-040 kit: amix-kernel-040 makes the 68040/68060 AMIX kernel (generic, or the A3000 + Z3660 line) from the user's own stock AMIX 2.1c kernel. All MIT; no AMIX kernel, Commodore or NetBSD file is included (the Motorola FPSP/060SP code is extracted from the pinned NetBSD 10.1 syssrc.tgz at kernel build time)."
+set name=info.classification value="$(COMPONENT_CLASSIFICATION)"
+set name=info.upstream-url value=$(COMPONENT_PROJECT_URL)
+set name=info.source-url value=$(COMPONENT_ARCHIVE_URL)
+set name=org.opensolaris.consolidation value=$(CONSOLIDATION)
+#
+# m68k objects for the AMIX kernel, not for this host
+<transform file -> default pkg.depend.bypass-generate .*>
+<transform file -> default pkg.linted.userland.action001 true>
+#
+license $(COMPONENT_LICENSE_FILE) license='$(COMPONENT_LICENSE)'
+#
+# what amix-kernel-040 and kit-relink.sh run: the m68k-elf gcc + binutils
+# (/opt/m68k-amix), gcc 2.7.2.3 (m68k-cbm-sysv4-*), python3, m4, patch, tar
+depend type=require fmri=developer/amix/gcc-14
+depend type=require fmri=developer/amix/gcc-27
+depend type=require-any fmri=runtime/python-313 fmri=runtime/python-314 \
+    fmri=runtime/python-39
+depend type=require fmri=developer/macro/gnu-m4
+depend type=require fmri=text/gnu-patch
+depend type=require fmri=archiver/gnu-tar
+#
+file path=usr/share/amix-installer/kernel-040/KIT.info
+file path=usr/share/amix-installer/kernel-040/KIT.sha256
+file path=usr/share/amix-installer/kernel-040/amix-kernel-040 mode=0555
+file path=usr/share/amix-installer/kernel-040/io/paula/LICENSE
+file path=usr/share/amix-installer/kernel-040/io/paula/port/src/patch_audio_paula.py
+file path=usr/share/amix-installer/kernel-040/io/paula/port/src/patch_paula_cdevsw.py
+file path=usr/share/amix-installer/kernel-040/io/paula/port/src/paula.c
+file path=usr/share/amix-installer/kernel-040/io/paula/port/src/paula.h
+file path=usr/share/amix-installer/kernel-040/io/z3660net/LICENSE
+file path=usr/share/amix-installer/kernel-040/io/z3660net/port/patches/0001-kvmap-noncacheable-mapping-above-vsect1.patch
+file path=usr/share/amix-installer/kernel-040/io/z3660net/port/patches/0002-eth-1.0.0-7-armed-accesses-rx-backpressure.patch
+file path=usr/share/amix-installer/kernel-040/io/z3660net/port/patches/0003-int6-receive-static-kernel.patch
+file path=usr/share/amix-installer/kernel-040/io/z3660net/port/patches/0004-int6-two-tick-self-test-intena.patch
+file path=usr/share/amix-installer/kernel-040/io/z3660net/port/patches/0005-int6-serial-gaps-and-z3660eth-none.patch
+file path=usr/share/amix-installer/kernel-040/io/z3660net/port/patches/0006-silent-without-a-board.patch
+file path=usr/share/amix-installer/kernel-040/io/z3660net/src/z3660eth.c
+file path=usr/share/amix-installer/kernel-040/io/z3660net/src/z3660eth.h
+file path=usr/share/amix-installer/kernel-040/io/z3660net/src/z3660ethuser.h
+file path=usr/share/amix-installer/kernel-040/io/z3660scsi/LICENSE
+file path=usr/share/amix-installer/kernel-040/io/z3660scsi/port/patches/0001-zs05-armed-register-accesses.patch
+file path=usr/share/amix-installer/kernel-040/io/z3660scsi/src/z3660.c
+file path=usr/share/amix-installer/kernel-040/io/zz9000/LICENSE
+file path=usr/share/amix-installer/kernel-040/io/zz9000/overlay/usr/sys/amiga/driver/zz9000/zz9000.c
+file path=usr/share/amix-installer/kernel-040/io/zz9000/overlay/usr/sys/amiga/driver/zz9000/zz9000.h
+file path=usr/share/amix-installer/kernel-040/port/LICENSE
+file path=usr/share/amix-installer/kernel-040/port/NOTICE
+file path=usr/share/amix-installer/kernel-040/port/THIRD_PARTY_NOTICES/MOTOROLA-M68040-FPSP.txt
+file path=usr/share/amix-installer/kernel-040/port/THIRD_PARTY_NOTICES/MOTOROLA-M68060-SP.txt
+file path=usr/share/amix-installer/kernel-040/port/THIRD_PARTY_NOTICES/NETBSD-M68K-FPE.txt
+file path=usr/share/amix-installer/kernel-040/port/build-fpsp040.sh
+file path=usr/share/amix-installer/kernel-040/port/build-fpsp060.sh
+file path=usr/share/amix-installer/kernel-040/port/build-isp060.sh
+file path=usr/share/amix-installer/kernel-040/port/include-modelb/sys/immu.h
+file path=usr/share/amix-installer/kernel-040/port/include-modelb/sys/param.h
+file path=usr/share/amix-installer/kernel-040/port/relink-040-audio.sh
+file path=usr/share/amix-installer/kernel-040/port/relink-040-ksegtbl.sh
+file path=usr/share/amix-installer/kernel-040/port/relink-040-kvseg.sh
+file path=usr/share/amix-installer/kernel-040/port/relink-040-memregions.sh
+file path=usr/share/amix-installer/kernel-040/port/relink-040-memspan.sh
+file path=usr/share/amix-installer/kernel-040/port/relink-040-paula.sh
+file path=usr/share/amix-installer/kernel-040/port/relink-040-random.sh mode=0555
+file path=usr/share/amix-installer/kernel-040/port/relink-040-serkeep.sh mode=0555
+file path=usr/share/amix-installer/kernel-040/port/relink-040-shm.sh mode=0555
+file path=usr/share/amix-installer/kernel-040/port/relink-040-vt.sh
+file path=usr/share/amix-installer/kernel-040/port/relink-040-z3660.sh
+file path=usr/share/amix-installer/kernel-040/port/relink-040-z3660intr.sh
+file path=usr/share/amix-installer/kernel-040/port/relink-040-zz9000kv.sh
+file path=usr/share/amix-installer/kernel-040/port/relink-040.sh
+file path=usr/share/amix-installer/kernel-040/port/src/README-pstart-040.md
+file path=usr/share/amix-installer/kernel-040/port/src/README.md
+file path=usr/share/amix-installer/kernel-040/port/src/a3091dbg040.s
+file path=usr/share/amix-installer/kernel-040/port/src/a3091demux040.s
+file path=usr/share/amix-installer/kernel-040/port/src/amixdrv_init.s.in
+file path=usr/share/amix-installer/kernel-040/port/src/amixdrv_int2.s.in
+file path=usr/share/amix-installer/kernel-040/port/src/asfault_probe.s
+file path=usr/share/amix-installer/kernel-040/port/src/assegat_dbg.s
+file path=usr/share/amix-installer/kernel-040/port/src/blkatoff_dbg.s
+file path=usr/share/amix-installer/kernel-040/port/src/bp_map040.s
+file path=usr/share/amix-installer/kernel-040/port/src/btrace.s
+file path=usr/share/amix-installer/kernel-040/port/src/btwalk.s
+file path=usr/share/amix-installer/kernel-040/port/src/cb_icode040.s
+file path=usr/share/amix-installer/kernel-040/port/src/cb_release040.s
+file path=usr/share/amix-installer/kernel-040/port/src/cdfs_modelb.sh
+file path=usr/share/amix-installer/kernel-040/port/src/check_fpe_relocs.py
+file path=usr/share/amix-installer/kernel-040/port/src/check_fpu_relocs.py
+file path=usr/share/amix-installer/kernel-040/port/src/check_page_geometry.sh
+file path=usr/share/amix-installer/kernel-040/port/src/check_relink_relocs.py
+file path=usr/share/amix-installer/kernel-040/port/src/check_root_family.py
+file path=usr/share/amix-installer/kernel-040/port/src/check_swap_boname.py
+file path=usr/share/amix-installer/kernel-040/port/src/check_vproc.py
+file path=usr/share/amix-installer/kernel-040/port/src/codepub040.s
+file path=usr/share/amix-installer/kernel-040/port/src/config040.s
+file path=usr/share/amix-installer/kernel-040/port/src/cputype060.s
+file path=usr/share/amix-installer/kernel-040/port/src/dbgpublish040.s
+file path=usr/share/amix-installer/kernel-040/port/src/ddopen_dbg.s
+file path=usr/share/amix-installer/kernel-040/port/src/detect_pagesize.py
+file path=usr/share/amix-installer/kernel-040/port/src/devkvmap040.s
+file path=usr/share/amix-installer/kernel-040/port/src/dma_cache040.s
+file path=usr/share/amix-installer/kernel-040/port/src/execmark.s
+file path=usr/share/amix-installer/kernel-040/port/src/extract_fpe.sh
+file path=usr/share/amix-installer/kernel-040/port/src/forkdbg.s
+file path=usr/share/amix-installer/kernel-040/port/src/fpe-compat/m68k/m68k.h
+file path=usr/share/amix-installer/kernel-040/port/src/fpe-compat/machine/endian.h
+file path=usr/share/amix-installer/kernel-040/port/src/fpe-compat/machine/frame.h
+file path=usr/share/amix-installer/kernel-040/port/src/fpe-compat/machine/ieee.h
+file path=usr/share/amix-installer/kernel-040/port/src/fpe-compat/machine/reg.h
+file path=usr/share/amix-installer/kernel-040/port/src/fpe-compat/machine/trap.h
+file path=usr/share/amix-installer/kernel-040/port/src/fpe-compat/opt_m68k_arch.h
+file path=usr/share/amix-installer/kernel-040/port/src/fpe-compat/sys/cdefs.h
+file path=usr/share/amix-installer/kernel-040/port/src/fpe-compat/sys/featuretest.h
+file path=usr/share/amix-installer/kernel-040/port/src/fpe-compat/sys/signalvar.h
+file path=usr/share/amix-installer/kernel-040/port/src/fpe040.s
+file path=usr/share/amix-installer/kernel-040/port/src/fpe_glue.c
+file path=usr/share/amix-installer/kernel-040/port/src/fpsp060_glue.s
+file path=usr/share/amix-installer/kernel-040/port/src/fpsp060_head.s
+file path=usr/share/amix-installer/kernel-040/port/src/fpsp_glue040.s
+file path=usr/share/amix-installer/kernel-040/port/src/fpu060.s
+file path=usr/share/amix-installer/kernel-040/port/src/fpuinit060.s
+file path=usr/share/amix-installer/kernel-040/port/src/getfault040.s
+file path=usr/share/amix-installer/kernel-040/port/src/haltsys040.s
+file path=usr/share/amix-installer/kernel-040/port/src/hat-040-port-worklist.md
+file path=usr/share/amix-installer/kernel-040/port/src/hat-exec-040-fix-plan.md
+file path=usr/share/amix-installer/kernel-040/port/src/hat-map-040-fix-plan.md
+file path=usr/share/amix-installer/kernel-040/port/src/hat040.s
+file path=usr/share/amix-installer/kernel-040/port/src/hat_chgprot040.s
+file path=usr/share/amix-installer/kernel-040/port/src/hat_dup040.s
+file path=usr/share/amix-installer/kernel-040/port/src/hat_exec040.s
+file path=usr/share/amix-installer/kernel-040/port/src/hat_pagesync040.s
+file path=usr/share/amix-installer/kernel-040/port/src/hatalloc_dbg.s
+file path=usr/share/amix-installer/kernel-040/port/src/hgfault040.s
+file path=usr/share/amix-installer/kernel-040/port/src/i10dtrace030.s
+file path=usr/share/amix-installer/kernel-040/port/src/i10rev040.s
+file path=usr/share/amix-installer/kernel-040/port/src/inittrap.s
+file path=usr/share/amix-installer/kernel-040/port/src/inituname040.s
+file path=usr/share/amix-installer/kernel-040/port/src/inituser.s
+file path=usr/share/amix-installer/kernel-040/port/src/isp060_glue.s
+file path=usr/share/amix-installer/kernel-040/port/src/isp060_head.s
+file path=usr/share/amix-installer/kernel-040/port/src/isp61_060.s
+file path=usr/share/amix-installer/kernel-040/port/src/issue39_040.s
+file path=usr/share/amix-installer/kernel-040/port/src/kdbg040.s
+file path=usr/share/amix-installer/kernel-040/port/src/kelf.py
+file path=usr/share/amix-installer/kernel-040/port/src/kmem_validate.s
+file path=usr/share/amix-installer/kernel-040/port/src/kmemchk.s
+file path=usr/share/amix-installer/kernel-040/port/src/kprobe_asfl.s
+file path=usr/share/amix-installer/kernel-040/port/src/kprobe_asfl2.s
+file path=usr/share/amix-installer/kernel-040/port/src/krnxmemflt040.s
+file path=usr/share/amix-installer/kernel-040/port/src/ksegtbl.s
+file path=usr/share/amix-installer/kernel-040/port/src/ktrap_dbg.s
+file path=usr/share/amix-installer/kernel-040/port/src/ktrap_latch.s
+file path=usr/share/amix-installer/kernel-040/port/src/kvecdisp040.s
+file path=usr/share/amix-installer/kernel-040/port/src/kvecprobe040.s
+file path=usr/share/amix-installer/kernel-040/port/src/kvm040.s
+file path=usr/share/amix-installer/kernel-040/port/src/kvseg040.s
+file path=usr/share/amix-installer/kernel-040/port/src/legacysdt040.s
+file path=usr/share/amix-installer/kernel-040/port/src/linepatch.py
+file path=usr/share/amix-installer/kernel-040/port/src/lmul060.s
+file path=usr/share/amix-installer/kernel-040/port/src/mainmarks.s
+file path=usr/share/amix-installer/kernel-040/port/src/mcstate_dbg.s
+file path=usr/share/amix-installer/kernel-040/port/src/memregions.s
+file path=usr/share/amix-installer/kernel-040/port/src/memspan.s
+file path=usr/share/amix-installer/kernel-040/port/src/mk_fpe_cc.py
+file path=usr/share/amix-installer/kernel-040/port/src/mk_modelb_sysroot.sh
+file path=usr/share/amix-installer/kernel-040/port/src/modelb_geom_probe.c
+file path=usr/share/amix-installer/kernel-040/port/src/padtest040.s
+file path=usr/share/amix-installer/kernel-040/port/src/pageinitzero.s
+file path=usr/share/amix-installer/kernel-040/port/src/parinit_hydra.s
+file path=usr/share/amix-installer/kernel-040/port/src/parinit_va2000.s
+file path=usr/share/amix-installer/kernel-040/port/src/parinit_zz9000.s
+file path=usr/share/amix-installer/kernel-040/port/src/patch_a3091_badhardware.py mode=0555
+file path=usr/share/amix-installer/kernel-040/port/src/patch_a3091_dma.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_a3091_intr.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_audio_close.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_audio_stereo.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_autocon_lsr.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_b2_flip.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_btrace_on.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_btwalk.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_cb_release.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_config_cachefix.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_dbgpublish.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_devmmap2.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_devmmap_pfn.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_execboundary.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_execstk.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_fpe_vec11.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_fpe_vec60.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_fpsp_vec11.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_fpsp_vectors.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_framesz060.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_inittrap.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_inituser.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_int2.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_io_init.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_isp060_hook.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_isp_vec61.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_kmapools.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_kvecdisp.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_kvseg.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_memcntl.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_mincore.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_modelb.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_modelb_pager.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_nfs_getpage.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_nfs_putpage.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_pagecreate.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_pageoutdefs.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_pflusha_040.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_pgrsv_sites.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_pmmu_040.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_procio.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_pstart_040.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_pvntrunc.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_random_cdevsw.py mode=0555
+file path=usr/share/amix-installer/kernel-040/port/src/patch_rth1_hook.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_sched_hook.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_scrdev_pageb.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_sdtfail.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_segdev_bridge.py mode=0555
+file path=usr/share/amix-installer/kernel-040/port/src/patch_segdev_ops.py mode=0555
+file path=usr/share/amix-installer/kernel-040/port/src/patch_segkmem.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_segmapdbg.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_sendsig_fpu.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_setbackdq_hook.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_setrun_hook.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_shminfo.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_sl_closedq.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_srgtrap.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_swapadd.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_swapgeom.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_swapin.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_sys_forkret_hook.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_sysconfig_pagesize.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_ttcompat_init.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_ufault.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_ufsbmap.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_usptrap.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_va2000_cdevsw.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_writeback.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_xpage_flip.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_xpanic_sync.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_xsvga.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_z3660.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_z3660_cache.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_z3660_intr.py
+file path=usr/share/amix-installer/kernel-040/port/src/patch_zz9000_cdevsw.py
+file path=usr/share/amix-installer/kernel-040/port/src/pgrsv.c
+file path=usr/share/amix-installer/kernel-040/port/src/pgrsv_tail040.s
+file path=usr/share/amix-installer/kernel-040/port/src/preempt_dbg.s
+file path=usr/share/amix-installer/kernel-040/port/src/prfastmap040.s
+file path=usr/share/amix-installer/kernel-040/port/src/prumap040.s
+file path=usr/share/amix-installer/kernel-040/port/src/pstart-040-design.md
+file path=usr/share/amix-installer/kernel-040/port/src/pstart040.s
+file path=usr/share/amix-installer/kernel-040/port/src/pstart_trampoline.s
+file path=usr/share/amix-installer/kernel-040/port/src/ptdatfree040.s
+file path=usr/share/amix-installer/kernel-040/port/src/ptest040.s
+file path=usr/share/amix-installer/kernel-040/port/src/pvn_probe.s
+file path=usr/share/amix-installer/kernel-040/port/src/random.c
+file path=usr/share/amix-installer/kernel-040/port/src/rth1.c
+file path=usr/share/amix-installer/kernel-040/port/src/rth1_tail040.s
+file path=usr/share/amix-installer/kernel-040/port/src/runtime040.s
+file path=usr/share/amix-installer/kernel-040/port/src/scrcon_zz9k.s
+file path=usr/share/amix-installer/kernel-040/port/src/scrdevfix040.s
+file path=usr/share/amix-installer/kernel-040/port/src/sdcardbase040.s
+file path=usr/share/amix-installer/kernel-040/port/src/sdpartition_dbg.s
+file path=usr/share/amix-installer/kernel-040/port/src/sdprobe040.s
+file path=usr/share/amix-installer/kernel-040/port/src/segdevchk040.s
+file path=usr/share/amix-installer/kernel-040/port/src/segkmem040.s
+file path=usr/share/amix-installer/kernel-040/port/src/segmapdbg.s
+file path=usr/share/amix-installer/kernel-040/port/src/segu_lockfix.s
+file path=usr/share/amix-installer/kernel-040/port/src/segu_swap_dbg.s
+file path=usr/share/amix-installer/kernel-040/port/src/segu_ubptbl040.s
+file path=usr/share/amix-installer/kernel-040/port/src/segvn_prot040.s
+file path=usr/share/amix-installer/kernel-040/port/src/segvn_softunlock_dbg.s
+file path=usr/share/amix-installer/kernel-040/port/src/serdbg.s
+file path=usr/share/amix-installer/kernel-040/port/src/serdbg_keepbaud.s
+file path=usr/share/amix-installer/kernel-040/port/src/serdbg_mark.s
+file path=usr/share/amix-installer/kernel-040/port/src/setuctxt_dbg.s
+file path=usr/share/amix-installer/kernel-040/port/src/sigkill_dbg.s
+file path=usr/share/amix-installer/kernel-040/port/src/srgtrap.s
+file path=usr/share/amix-installer/kernel-040/port/src/stamp_buildid.py
+file path=usr/share/amix-installer/kernel-040/port/src/swapadd_dbg.s
+file path=usr/share/amix-installer/kernel-040/port/src/swapconf_dbg.s
+file path=usr/share/amix-installer/kernel-040/port/src/syncguard.s
+file path=usr/share/amix-installer/kernel-040/port/src/ucp2_dbg.s
+file path=usr/share/amix-installer/kernel-040/port/src/ucp_dbg.s
+file path=usr/share/amix-installer/kernel-040/port/src/ucz_dbg.s
+file path=usr/share/amix-installer/kernel-040/port/src/ufault_dbg.s
+file path=usr/share/amix-installer/kernel-040/port/src/userspace040.s
+file path=usr/share/amix-installer/kernel-040/port/src/usptrap.s
+file path=usr/share/amix-installer/kernel-040/port/src/usrxmemflt040-design.md
+file path=usr/share/amix-installer/kernel-040/port/src/uvatosde040.s
+file path=usr/share/amix-installer/kernel-040/port/src/va2000_modelb.py
+file path=usr/share/amix-installer/kernel-040/port/src/vt040.c
+file path=usr/share/amix-installer/kernel-040/port/src/vtop040.s
+file path=usr/share/amix-installer/kernel-040/port/src/wb040.s
+file path=usr/share/amix-installer/kernel-040/port/src/xsvga-provenance.sh
+file path=usr/share/amix-installer/kernel-040/port/src/z3660_cache_arm.s
+file path=usr/share/amix-installer/kernel-040/port/src/z3660_glue040.s
+file path=usr/share/amix-installer/kernel-040/port/src/z3660_modelb.py
+file path=usr/share/amix-installer/kernel-040/port/tools/amix-kernel-040 mode=0555
+file path=usr/share/amix-installer/kernel-040/port/tools/blocks.py mode=0555
+file path=usr/share/amix-installer/kernel-040/port/tools/build-step.sh
+file path=usr/share/amix-installer/kernel-040/port/tools/check-blocks.sh mode=0555
+file path=usr/share/amix-installer/kernel-040/port/tools/check-env.sh mode=0555
+file path=usr/share/amix-installer/kernel-040/port/tools/check-verbatim.allow
+file path=usr/share/amix-installer/kernel-040/port/tools/check-verbatim.py
+file path=usr/share/amix-installer/kernel-040/port/tools/config-load.sh
+file path=usr/share/amix-installer/kernel-040/port/tools/cross-cc-verify.sh mode=0555
+file path=usr/share/amix-installer/kernel-040/port/tools/elf-global.py
+file path=usr/share/amix-installer/kernel-040/port/tools/fpelf-census.py
+file path=usr/share/amix-installer/kernel-040/port/tools/gen-battery.sh mode=0555
+file path=usr/share/amix-installer/kernel-040/port/tools/ghidra-decomp.sh mode=0555
+file path=usr/share/amix-installer/kernel-040/port/tools/ghidra-scripts/DecompFns.java
+file path=usr/share/amix-installer/kernel-040/port/tools/kernel-nswap.py mode=0555
+file path=usr/share/amix-installer/kernel-040/port/tools/kit-lib.sh
+file path=usr/share/amix-installer/kernel-040/port/tools/kit-relink.sh
+file path=usr/share/amix-installer/kernel-040/port/tools/m68k-gas.sh
+file path=usr/share/amix-installer/kernel-040/port/tools/netbsd-pin.sh
+file path=usr/share/amix-installer/kernel-040/port/tools/next-issue.sh mode=0555
+file path=usr/share/amix-installer/kernel-040/port/tools/patch-kernel-cacr.py
+file path=usr/share/amix-installer/kernel-040/port/tools/patch-memspan.py
+file path=usr/share/amix-installer/kernel-040/port/tools/prof-fixtures.py
+file path=usr/share/amix-installer/kernel-040/port/tools/prof-symbolize.py
+file path=usr/share/amix-installer/kernel-040/port/tools/rth1-record.py
+file path=usr/share/amix-installer/kernel-040/port/tools/stamp-card1.py
+file path=usr/share/amix-installer/kernel-040/port/tools/stamp-cputype.py
+file path=usr/share/amix-installer/kernel-040/port/tools/stamp-rootcard.py
+file path=usr/share/amix-installer/kernel-040/port/tools/status-facts.sh mode=0555
+file path=usr/share/amix-installer/kernel-040/port/tools/sunfont-gas.py mode=0555
+file path=usr/share/amix-installer/kernel-040/port/tools/test-build-step.sh
+file path=usr/share/amix-installer/kernel-040/port/tools/test-isp060.sh
+file path=usr/share/amix-installer/kernel-040/port/tools/test-pgrsv.c
+file path=usr/share/amix-installer/kernel-040/port/tools/test-pgrsv.sh
+file path=usr/share/amix-installer/kernel-040/port/tools/test-prof-symbolize.sh
+file path=usr/share/amix-installer/kernel-040/port/tools/test-rth1.c
+file path=usr/share/amix-installer/kernel-040/port/tools/test-rth1.sh
+file path=usr/share/amix-installer/kernel-040/port/tools/test-ttcompat-init.sh
+file path=usr/share/amix-installer/kernel-040/port/tools/verify-stock.sh
+file path=usr/share/amix-installer/kernel-040/port/tools/z3660peek.py
+file path=usr/share/amix-installer/kit-tools/KIT.sha256
+file path=usr/share/amix-installer/kit-tools/amixdrv_init.s.in
+file path=usr/share/amix-installer/kit-tools/amixdrv_int2.s.in
+file path=usr/share/amix-installer/kit-tools/check_relink_relocs.py
+file path=usr/share/amix-installer/kit-tools/kernel-nswap.py mode=0555
+file path=usr/share/amix-installer/kit-tools/patch_int2.py
+file path=usr/share/amix-installer/kit-tools/patch_io_init.py
+file path=usr/share/amix-installer/kit-tools/stamp-rootcard.py mode=0555

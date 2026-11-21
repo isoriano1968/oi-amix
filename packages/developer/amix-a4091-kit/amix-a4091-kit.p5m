@@ -1,0 +1,44 @@
+#
+# This file and its contents are supplied under the terms of the
+# Common Development and Distribution License ("CDDL"), version 1.0.
+# You may only use this file in accordance with the terms of version
+# 1.0 of the CDDL.
+#
+# A full copy of the text of the CDDL should have accompanied this
+# source.  A copy of the CDDL is also available via the Internet at
+# http://www.illumos.org/license/CDDL.
+#
+
+set name=pkg.fmri value=pkg:/$(COMPONENT_FMRI)@$(IPS_COMPONENT_VERSION),$(BUILD_VERSION)
+set name=pkg.summary value="Kernel driver kit for the AMIX Installer: the A4091, A4092 and A4770 (NCR 53C710, Zorro III) as SCSI controllers of sd.c (dd disks, block major 18, char major 40), amigaux A4091 driver, polled I/O, stock 68030 and 68040/68060 port kernels. No AMIX kernel is included."
+set name=pkg.description value="a4091 kernel driver kit for the AMIX Installer: the NCR 53C710 Zorro III SCSI-2 boards (Commodore A4091, AutoConfig 0x0202:0x54; A4092 and A4770, 0xc0de:0x01, 0xc0de:0x02) as SCSI controllers of the stock sd.c, so their drives are ordinary dd disks (/dev/dsk/cNdUsS at their SCSI IDs); amigaux A4091 driver by Jussi Alanaerae (MIT), polled I/O; the 68040/68060 kit uses the port kernel DMA cache service. Not combinable with buddha-kit or z3660scsi-kit in one kernel yet."
+set name=info.classification value="$(COMPONENT_CLASSIFICATION)"
+set name=info.upstream-url value=$(COMPONENT_PROJECT_URL)
+set name=info.source-url value=$(COMPONENT_ARCHIVE_URL)
+set name=org.opensolaris.consolidation value=$(CONSOLIDATION)
+#
+# m68k objects for the AMIX kernel, not for this host
+<transform file -> default pkg.depend.bypass-generate .*>
+<transform file -> default pkg.linted.userland.action001 true>
+#
+license $(COMPONENT_LICENSE_FILE) license='$(COMPONENT_LICENSE)'
+#
+file path=usr/share/amix-installer/a4091/KIT.info
+file path=usr/share/amix-installer/a4091/KIT.sha256
+file path=usr/share/amix-installer/a4091/LICENSE.a4091
+file path=usr/share/amix-installer/a4091/a4091_030.o
+file path=usr/share/amix-installer/a4091/a4091_card.o
+file path=usr/share/amix-installer/a4091/a4091_pad.o
+file path=usr/share/amix-installer/a4091/check_relink_relocs.py
+file path=usr/share/amix-installer/a4091/patch_a4091_card.py
+file path=usr/share/amix-installer/a4091/patch_io_init.py
+file path=usr/share/amix-installer/a4091-040/KIT.info
+file path=usr/share/amix-installer/a4091-040/KIT.sha256
+file path=usr/share/amix-installer/a4091-040/LICENSE.a4091
+file path=usr/share/amix-installer/a4091-040/a4091_040.o
+file path=usr/share/amix-installer/a4091-040/a4091_kvmap.o
+file path=usr/share/amix-installer/a4091-040/a4091_card.o
+file path=usr/share/amix-installer/a4091-040/a4091_pad.o
+file path=usr/share/amix-installer/a4091-040/check_relink_relocs.py
+file path=usr/share/amix-installer/a4091-040/patch_a4091_card.py
+file path=usr/share/amix-installer/a4091-040/patch_io_init.py

@@ -1,0 +1,43 @@
+#
+# This file and its contents are supplied under the terms of the
+# Common Development and Distribution License ("CDDL"), version 1.0.
+# You may only use this file in accordance with the terms of version
+# 1.0 of the CDDL.
+#
+# A full copy of the text of the CDDL should have accompanied this
+# source.  A copy of the CDDL is also available via the Internet at
+# http://www.illumos.org/license/CDDL.
+#
+
+set name=pkg.fmri value=pkg:/$(COMPONENT_FMRI)@$(IPS_COMPONENT_VERSION),$(BUILD_VERSION)
+set name=pkg.summary value="Kernel driver kits for the AMIX Installer: /dev/va2000 (major 68) for the MNT VA2000 RTG card, built from asokero's va2000-amix (MIT) plus amix-gate patches; va2000 for the stock 68030 kernel (Zorro II), va2000-040 for the 68040/68060 port kernels (Zorro II and III). No AMIX kernel is included."
+set name=pkg.description \
+    value="va2000 kernel driver kits for the AMIX Installer: /dev/va2000, major 68, the MNT VA2000 RTG graphics card, for the stock 68030 kernel (va2000, Zorro II) and the 68040/68060 port kernels (va2000-040, Zorro II or Zorro III through a kernel mapping of its registers)."
+set name=info.classification value="$(COMPONENT_CLASSIFICATION)"
+set name=info.upstream-url value=$(COMPONENT_PROJECT_URL)
+set name=info.source-url value=$(COMPONENT_ARCHIVE_URL)
+set name=org.opensolaris.consolidation value=$(CONSOLIDATION)
+#
+# m68k objects for the AMIX kernel, not for this host
+<transform file -> default pkg.depend.bypass-generate .*>
+<transform file -> default pkg.linted.userland.action001 true>
+#
+license $(COMPONENT_LICENSE_FILE) license='$(COMPONENT_LICENSE)'
+#
+file path=usr/share/amix-installer/va2000/KIT.info
+file path=usr/share/amix-installer/va2000/KIT.sha256
+file path=usr/share/amix-installer/va2000/LICENSE.va2000
+file path=usr/share/amix-installer/va2000/check_relink_relocs.py
+file path=usr/share/amix-installer/va2000/patch_io_init.py
+file path=usr/share/amix-installer/va2000/patch_va2000_cdevsw.py
+file path=usr/share/amix-installer/va2000/va2000_030.o
+file path=usr/share/amix-installer/va2000/va2000_pad.o
+file path=usr/share/amix-installer/va2000-040/KIT.info
+file path=usr/share/amix-installer/va2000-040/KIT.sha256
+file path=usr/share/amix-installer/va2000-040/LICENSE.va2000
+file path=usr/share/amix-installer/va2000-040/check_relink_relocs.py
+file path=usr/share/amix-installer/va2000-040/devkvmap040.o
+file path=usr/share/amix-installer/va2000-040/patch_io_init.py
+file path=usr/share/amix-installer/va2000-040/patch_va2000_cdevsw.py
+file path=usr/share/amix-installer/va2000-040/va2000_040.o
+file path=usr/share/amix-installer/va2000-040/va2000_pad.o

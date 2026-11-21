@@ -1,0 +1,43 @@
+#
+# This file and its contents are supplied under the terms of the
+# Common Development and Distribution License ("CDDL"), version 1.0.
+# You may only use this file in accordance with the terms of version
+# 1.0 of the CDDL.
+#
+# A full copy of the text of the CDDL should have accompanied this
+# source.  A copy of the CDDL is also available via the Internet at
+# http://www.illumos.org/license/CDDL.
+#
+
+set name=pkg.fmri value=pkg:/$(COMPONENT_FMRI)@$(IPS_COMPONENT_VERSION),$(BUILD_VERSION)
+set name=pkg.summary value="Kernel driver kit for the AMIX Installer: the Buddha and Catweasel Z-II IDE as SCSI controllers of sd.c (dd disks, block major 18, char major 40), amigaux amix-gayle-ide, polled I/O, stock 68030 and 68040/68060 port kernels. No AMIX kernel is included."
+set name=pkg.description value="buddha kernel driver kit for the AMIX Installer: the Buddha and Catweasel Z-II IDE controllers (AutoConfig 0x1212:0x00, 0x1212:0x2A) as SCSI controllers of the stock sd.c, so their drives are ordinary dd disks (/dev/dsk/cNdUsS); amigaux amix-gayle-ide by Emre Bastuz (MIT) with stand-ins for the module core, polled I/O. Not combinable with z3660scsi-kit in one kernel yet."
+set name=info.classification value="$(COMPONENT_CLASSIFICATION)"
+set name=info.upstream-url value=$(COMPONENT_PROJECT_URL)
+set name=info.source-url value=$(COMPONENT_ARCHIVE_URL)
+set name=org.opensolaris.consolidation value=$(CONSOLIDATION)
+#
+# m68k objects for the AMIX kernel, not for this host
+<transform file -> default pkg.depend.bypass-generate .*>
+<transform file -> default pkg.linted.userland.action001 true>
+#
+license $(COMPONENT_LICENSE_FILE) license='$(COMPONENT_LICENSE)'
+#
+file path=usr/share/amix-installer/buddha/KIT.info
+file path=usr/share/amix-installer/buddha/KIT.sha256
+file path=usr/share/amix-installer/buddha/LICENSE.buddha
+file path=usr/share/amix-installer/buddha/buddha_030.o
+file path=usr/share/amix-installer/buddha/buddha_card.o
+file path=usr/share/amix-installer/buddha/buddha_pad.o
+file path=usr/share/amix-installer/buddha/check_relink_relocs.py
+file path=usr/share/amix-installer/buddha/patch_buddha_card.py
+file path=usr/share/amix-installer/buddha/patch_io_init.py
+file path=usr/share/amix-installer/buddha-040/KIT.info
+file path=usr/share/amix-installer/buddha-040/KIT.sha256
+file path=usr/share/amix-installer/buddha-040/LICENSE.buddha
+file path=usr/share/amix-installer/buddha-040/buddha_040.o
+file path=usr/share/amix-installer/buddha-040/buddha_card.o
+file path=usr/share/amix-installer/buddha-040/buddha_pad.o
+file path=usr/share/amix-installer/buddha-040/check_relink_relocs.py
+file path=usr/share/amix-installer/buddha-040/patch_buddha_card.py
+file path=usr/share/amix-installer/buddha-040/patch_io_init.py

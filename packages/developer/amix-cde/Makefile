@@ -27,6 +27,8 @@ include ../../../make-rules/shared-macros.mk
 
 COMPONENT_NAME =	amix-cde
 COMPONENT_VERSION =	2.2.4
+# rev 1: rebuilt with gcc-14 rev 4 (no build-host paths from libgcc)
+COMPONENT_REVISION =	1
 COMPONENT_SUMMARY =	CDE 2.2.4a (libraries, headers, desktop) for the AMIX sysroot
 COMPONENT_PROJECT_URL =	https://github.com/isoriano1968/amix-userland
 COMPONENT_FMRI =	developer/amix/cde

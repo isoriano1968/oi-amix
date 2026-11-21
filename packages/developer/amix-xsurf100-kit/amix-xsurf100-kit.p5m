@@ -1,0 +1,43 @@
+#
+# This file and its contents are supplied under the terms of the
+# Common Development and Distribution License ("CDDL"), version 1.0.
+# You may only use this file in accordance with the terms of version
+# 1.0 of the CDDL.
+#
+# A full copy of the text of the CDDL should have accompanied this
+# source.  A copy of the CDDL is also available via the Internet at
+# http://www.illumos.org/license/CDDL.
+#
+
+set name=pkg.fmri value=pkg:/$(COMPONENT_FMRI)@$(IPS_COMPONENT_VERSION),$(BUILD_VERSION)
+set name=pkg.summary value="Kernel driver kit(s) for the AMIX Installer: X-Surf 100 Ethernet (/dev/xsf0, major 56) on the shared DP8390 core. No AMIX kernel is included."
+set name=pkg.description \
+    value="xsurf100 kernel driver kits for the AMIX Installer: /dev/xsf0, major 56, the X-Surf 100 Ethernet card (AX88796, STREAMS/DLPI on the shared DP8390 core), for the stock 68030 kernel and the 68040/68060 port kernels."
+set name=info.classification value="$(COMPONENT_CLASSIFICATION)"
+set name=info.upstream-url value=$(COMPONENT_PROJECT_URL)
+set name=info.source-url value=$(COMPONENT_ARCHIVE_URL)
+set name=org.opensolaris.consolidation value=$(CONSOLIDATION)
+#
+# m68k objects for the AMIX kernel, not for this host
+<transform file -> default pkg.depend.bypass-generate .*>
+<transform file -> default pkg.linted.userland.action001 true>
+#
+license $(COMPONENT_LICENSE_FILE) license='$(COMPONENT_LICENSE)'
+#
+file path=usr/share/amix-installer/xsurf100/KIT.info
+file path=usr/share/amix-installer/xsurf100/KIT.sha256
+file path=usr/share/amix-installer/xsurf100/check_relink_relocs.py
+file path=usr/share/amix-installer/xsurf100/patch_int2.py
+file path=usr/share/amix-installer/xsurf100/patch_io_init.py
+file path=usr/share/amix-installer/xsurf100/patch_xsurf100_cdevsw.py
+file path=usr/share/amix-installer/xsurf100/xsurf100_030.o
+file path=usr/share/amix-installer/xsurf100/xsurf100_pad.o
+file path=usr/share/amix-installer/xsurf100-040/KIT.info
+file path=usr/share/amix-installer/xsurf100-040/KIT.sha256
+file path=usr/share/amix-installer/xsurf100-040/check_relink_relocs.py
+file path=usr/share/amix-installer/xsurf100-040/patch_int2.py
+file path=usr/share/amix-installer/xsurf100-040/patch_io_init.py
+file path=usr/share/amix-installer/xsurf100-040/patch_xsurf100_cdevsw.py
+file path=usr/share/amix-installer/xsurf100-040/xsurf100_040.o
+file path=usr/share/amix-installer/xsurf100-040/xsurf100_kvmap.o
+file path=usr/share/amix-installer/xsurf100-040/xsurf100_pad.o

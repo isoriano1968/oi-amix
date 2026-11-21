@@ -960,7 +960,6 @@ file path=opt/m68k-amix/m68k-elf/lib/ldscripts/m68kelf.xw
 file path=opt/m68k-amix/m68k-elf/lib/ldscripts/m68kelf.xwe
 file path=opt/m68k-amix/m68k-elf/lib/ldscripts/m68kelf.xwer
 file path=opt/m68k-amix/m68k-elf/lib/ldscripts/stamp
-file path=opt/m68k-amix/m68k-elf/lib/libamixc99.a
 file path=opt/m68k-amix/m68k-elf/lib/libstdc++.a
 file path=opt/m68k-amix/m68k-elf/lib/libstdc++exp.a
 file path=opt/m68k-amix/m68k-elf/lib/libsupc++.a

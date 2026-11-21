@@ -44,7 +44,7 @@ include ../../../make-rules/shared-macros.mk
 
 COMPONENT_NAME =	amix-gcc-27
 COMPONENT_VERSION =	2.7.2.3
-COMPONENT_REVISION =	3
+COMPONENT_REVISION =	4
 COMPONENT_SUMMARY =	AMIX cross compiler: gcc 2.7.2.3 and binutils 2.8.1
 COMPONENT_PROJECT_URL =	https://github.com/isoriano1968/amix-userland
 COMPONENT_FMRI =	developer/amix/gcc-27
@@ -102,6 +102,9 @@ GCC_LIBDIR =		lib/gcc-lib/$(TARGET)/$(COMPONENT_VERSION)
 # the 1995 sources and the byte-for-byte comparison with the Linux workstation want these.
 HOST_CC =		$(GCC_ROOT)/bin/gcc -m32
 HOST_CFLAGS =		-O2 -g -std=gnu89 -fcommon
+# no build host paths in the host tools (revision 4): make-rules'
+# gcc_PATH_MAP (tools/oi-userland-neutral-paths.patch)
+HOST_CFLAGS +=		$(gcc_PATH_MAP)
 HOST_MAKE_ARGS =	CC="$(HOST_CC)" CFLAGS="$(HOST_CFLAGS)" MAKEINFO=true
 
 # The libgcc2 routines amix-userland's Makefile builds (LIBGCC2_FUNCS there).

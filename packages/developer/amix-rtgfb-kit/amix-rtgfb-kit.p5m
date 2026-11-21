@@ -12,7 +12,7 @@
 set name=pkg.fmri value=pkg:/$(COMPONENT_FMRI)@$(IPS_COMPONENT_VERSION),$(BUILD_VERSION)
 set name=pkg.summary value="$(COMPONENT_SUMMARY)"
 set name=pkg.description \
-    value="The rtgfb AMIX kernel driver (/dev/rtgfb, major 54) as a kit for the AMIX Installer: our own 68030 object files and the relink scripts, which the installer links into the user's own stock AMIX 2.1c/2.1p2a kernel on the host for a Picasso II graphics card (also FS-UAE's). No AMIX kernel is included."
+    value="The rtgfb AMIX kernel driver (/dev/rtgfb, major 54) as kits for the AMIX Installer: our own object files and the relink scripts, which the installer links into the user's own kernel on the host for a Picasso II graphics card (also FS-UAE's): rtgfb for the stock AMIX 2.1c/2.1p2a 68030 kernel, rtgfb-040 for the 68040/68060 port kernels. No AMIX kernel is included."
 set name=info.classification value="$(COMPONENT_CLASSIFICATION)"
 set name=info.upstream-url value=$(COMPONENT_PROJECT_URL)
 set name=info.source-url value=$(COMPONENT_ARCHIVE_URL)
@@ -24,8 +24,18 @@ set name=org.opensolaris.consolidation value=$(CONSOLIDATION)
 #
 license $(COMPONENT_LICENSE_FILE) license='$(COMPONENT_LICENSE)'
 #
+file path=usr/share/amix-installer/rtgfb/KIT.info
 file path=usr/share/amix-installer/rtgfb/KIT.sha256
 file path=usr/share/amix-installer/rtgfb/check_relink_relocs.py
+file path=usr/share/amix-installer/rtgfb/patch_io_init.py
 file path=usr/share/amix-installer/rtgfb/patch_rtgfb_cdevsw.py
 file path=usr/share/amix-installer/rtgfb/rtgfb_030.o
 file path=usr/share/amix-installer/rtgfb/rtgfb_pad.o
+file path=usr/share/amix-installer/rtgfb-040/KIT.info
+file path=usr/share/amix-installer/rtgfb-040/KIT.sha256
+file path=usr/share/amix-installer/rtgfb-040/check_relink_relocs.py
+file path=usr/share/amix-installer/rtgfb-040/devkvmap040.o
+file path=usr/share/amix-installer/rtgfb-040/patch_io_init.py
+file path=usr/share/amix-installer/rtgfb-040/patch_rtgfb_cdevsw.py
+file path=usr/share/amix-installer/rtgfb-040/rtgfb_040.o
+file path=usr/share/amix-installer/rtgfb-040/rtgfb_pad.o

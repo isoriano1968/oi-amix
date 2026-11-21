@@ -43,11 +43,13 @@ file path=usr/lib/amix-installer/amix_installer/plan.py
 file path=usr/lib/amix-installer/amix_installer/profile.py
 file path=usr/lib/amix-installer/amix_installer/rdb.py
 file path=usr/lib/amix-installer/amix_installer/scsicard.py
+file path=usr/lib/amix-installer/amix_installer/selfupdate.py
 file path=usr/lib/amix-installer/amix_installer/serve.py
 file path=usr/lib/amix-installer/amix_installer/servepage.py
 file path=usr/lib/amix-installer/amix_installer/safety.py
 file path=usr/lib/amix-installer/amix_installer/shot.py
 file path=usr/lib/amix-installer/amix_installer/svr4.py
+file path=usr/lib/amix-installer/amix_installer/updatebar.py
 file path=usr/lib/amix-installer/tools/amix-base-libs
 file path=usr/lib/amix-installer/tools/amix-publish mode=0555
 file path=usr/lib/amix-installer/tools/amix_needed.py

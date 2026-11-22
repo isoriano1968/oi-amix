@@ -43,7 +43,10 @@ include ../../../make-rules/shared-macros.mk
 
 COMPONENT_NAME =	amix-gcc-14
 COMPONENT_VERSION =	14.2.0
-COMPONENT_REVISION =	4
+# rev 5: the 68020 ISA tuned for the 68060 by default (--with-cpu=68020,
+# the specs add -mtune=68060), libamixc99 as the shared libamixc99.so.1
+# built by build-compat.sh after libgcc (no 68060 libamixc99.a)
+COMPONENT_REVISION =	5
 COMPONENT_SUMMARY =	AMIX cross compiler: gcc 14.2.0 (C, C++) and binutils 2.43.1
 COMPONENT_PROJECT_URL =	https://github.com/isoriano1968/amix-userland
 COMPONENT_FMRI =	developer/amix/gcc-14
@@ -62,10 +65,10 @@ COMPONENT_ARCHIVE_1 =	$(COMPONENT_SRC_1).tar.xz
 COMPONENT_ARCHIVE_HASH_1 = sha256:13f74202a3c4c51118b797a39ea4200d3f6cfbe224da6d1d95bb938480132dfd
 COMPONENT_ARCHIVE_URL_1 = https://ftp.gnu.org/gnu/binutils/$(COMPONENT_ARCHIVE_1)
 
-AMIX_USERLAND_COMMIT =	38dcb0e70e57f694f1d27e683ac69f5f05eea5c2
+AMIX_USERLAND_COMMIT =	5bae14a830d0c7f866c84fd5cab8808eec6ac9d9
 COMPONENT_SRC_2 =	amix-userland-$(AMIX_USERLAND_COMMIT)
 COMPONENT_ARCHIVE_2 =	$(COMPONENT_SRC_2).tar.gz
-COMPONENT_ARCHIVE_HASH_2 = sha256:0e0eb43aac0bf4e3abd9998bee573b5abb50dd91e50e142f614c9175e351a587
+COMPONENT_ARCHIVE_HASH_2 = sha256:f25b862c59ee1665811dc1e7b068dff175985ce3bdf50c0764b43a2480b387d3
 COMPONENT_ARCHIVE_URL_2 = https://github.com/isoriano1968/amix-userland/archive/$(AMIX_USERLAND_COMMIT).tar.gz
 
 # oi-userland does not set COMPONENT_MAKE_JOBS: an empty one made "-j"
@@ -85,7 +88,7 @@ AMIX_PREFIX =		/opt/m68k-amix
 AMIX_SYSROOT =		/opt/m68k-amix-sysroot
 PROTO_PREFIX =		$(PROTO_DIR)$(AMIX_PREFIX)
 GCC_LIBDIR =		lib/gcc/$(TARGET)/$(COMPONENT_VERSION)
-AMIX_CPU =		-mcpu=68060
+AMIX_CPU =		-mcpu=68020 -mtune=68060 -fexcess-precision=fast
 
 # amix-userland's source fixups (build-cross.sh runs them on the unpacked
 # tree), and the config.sh every one of its scripts reads.
@@ -122,7 +125,8 @@ HOST_ENV =		CC="$(HOST_CC) $(gcc_PATH_MAP)" CXX="$(HOST_CXX) $(gcc_PATH_MAP)"
 BUILD_PATH =		$(PROTO_PREFIX)/bin:$(PATH)
 
 # The configure options are build-cross.sh's; see the comments there for why
-# each one (--with-cpu=68060 is a correctness choice, not a speed one).
+# each one (--with-cpu=68020 with the specs' -mtune=68060: the tuning keeps
+# libgcc free of the 64-bit divides the 68060 removed).
 GCC_CONFIGURE_OPTIONS = \
 	--target=$(TARGET) --prefix=$(AMIX_PREFIX) \
 	--with-sysroot=$(AMIX_SYSROOT) \
@@ -133,7 +137,7 @@ GCC_CONFIGURE_OPTIONS = \
 	--disable-libstdcxx-filesystem-ts --disable-libstdcxx-pch \
 	--disable-libstdcxx-backtrace \
 	--disable-multilib --disable-gcov \
-	--with-cpu=68060
+	--with-cpu=68020
 
 # Two GNU trees in one build directory ($(BUILD_DIR_64)/binutils and /gcc),
 # so the justmake steps are replaced and nothing is cloned.
@@ -173,10 +177,11 @@ $(CP) $(AMIX14)/compat/include/stdint.h $(PROTO_PREFIX)/$(GCC_LIBDIR)/include-fi
 /usr/bin/bash $(COMPONENT_DIR)/files/check-include-fixed.sh $(PROTO_PREFIX)/$(GCC_LIBDIR)/include-fixed
 $(MKDIR) $(@D)/gcc/gcc/include-fixed
 cp -R $(PROTO_PREFIX)/$(GCC_LIBDIR)/include-fixed/. $(@D)/gcc/gcc/include-fixed/
-PATH=$(BUILD_PATH) $(BASH) $(AMIX14)/tools/build-compat.sh
-$(CP) $(PROTO_PREFIX)/$(TARGET)/lib/amix_init.o $(PROTO_PREFIX)/$(TARGET)/lib/libamixc99.a $(@D)/gcc/gcc/
 PATH=$(BUILD_PATH) $(GMAKE) -C $(@D)/gcc -j$(COMPONENT_MAKE_JOBS) $(MAKE_ARGS) all-target-libgcc
 PATH=$(BUILD_PATH) $(GMAKE) -C $(@D)/gcc $(MAKE_ARGS) install-target-libgcc DESTDIR=$(PROTO_DIR)
+PATH=$(BUILD_PATH) $(BASH) $(AMIX14)/tools/build-compat.sh
+cp -P $(PROTO_PREFIX)/$(TARGET)/lib/amix_init.o $(PROTO_PREFIX)/$(TARGET)/lib/libamixc99.so.1 \
+	$(PROTO_PREFIX)/$(TARGET)/lib/libamixc99.so $(@D)/gcc/gcc/
 PATH=$(BUILD_PATH) $(GMAKE) -C $(@D)/gcc -j$(COMPONENT_MAKE_JOBS) $(MAKE_ARGS) all-target-libstdc++-v3
 PATH=$(BUILD_PATH) $(GMAKE) -C $(@D)/gcc $(MAKE_ARGS) install-target-libstdc++-v3 DESTDIR=$(PROTO_DIR)
 endef
@@ -190,10 +195,11 @@ bad=$$($(PROTO_PREFIX)/bin/$(TARGET)-nm $(PROTO_PREFIX)/$(TARGET)/lib/libstdc++.
 	grep -c '_Z4freePv\|_Z6mallocm\|_Z5abortv\|_Z8strerrori' || true); \
 	test "$$bad" = 0 || { echo "libstdc++.a has $$bad mangled C library symbols"; exit 1; }
 /usr/bin/bash $(COMPONENT_DIR)/files/check-include-fixed.sh $(PROTO_PREFIX)/$(GCC_LIBDIR)/include-fixed
-# libamixc99.a is built for the 68060 (the toolchain build keeps its copy
-# beside xgcc): not packaged, so the specs' -lamixc99 resolves to the
-# sysroot's shared /usr/lib/libamixc99.so.1 and programs pass the 030 gate.
-$(RM) $(PROTO_PREFIX)/$(TARGET)/lib/libamixc99.a
+# libamixc99 only as the shared library build-compat.sh made (68020
+# baseline, nothing but libc.so.1's exports): an archive would be linked
+# instead
+test ! -e $(PROTO_PREFIX)/$(TARGET)/lib/libamixc99.a
+test -f $(PROTO_PREFIX)/$(TARGET)/lib/libamixc99.so.1
 endef
 
 REQUIRED_PACKAGES += SUNWcs

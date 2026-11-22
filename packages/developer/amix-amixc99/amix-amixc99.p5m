@@ -12,7 +12,7 @@
 set name=pkg.fmri value=pkg:/$(COMPONENT_FMRI)@$(IPS_COMPONENT_VERSION),$(BUILD_VERSION)
 set name=pkg.summary value="$(COMPONENT_SUMMARY)"
 set name=pkg.description \
-    value="amix-userland's library/amixc99 for the AMIX sysroot /opt/m68k-amix-sysroot: libamixc99.a (the C99 and POSIX functions AMIX SVR4.0's libc lacks, as linked by developer/amix/gcc-14), its pkg-config file amixc99.pc, and stdint.h, stdbool.h and inttypes.h for gcc 2.7, all under usr/local as on AMIX."
+    value="amix-userland's library/amixc99 for the AMIX sysroot /opt/m68k-amix-sysroot: libamixc99.so.1 in usr/lib (the C99 and POSIX functions AMIX SVR4.0's libc lacks, the shared library developer/amix/gcc-14 builds and links), its link stub, the pkg-config file amixc99.pc, amix_cpu.h, and stdint.h, stdbool.h and inttypes.h for gcc 2.7 under usr/local, as on AMIX."
 set name=info.classification value="$(COMPONENT_CLASSIFICATION)"
 set name=info.upstream-url value=$(COMPONENT_PROJECT_URL)
 set name=info.source-url value=$(COMPONENT_ARCHIVE_URL)
@@ -25,10 +25,14 @@ set name=org.opensolaris.consolidation value=$(CONSOLIDATION)
 #
 license $(COMPONENT_LICENSE_FILE) license='$(COMPONENT_LICENSE)'
 #
+#
+file path=opt/m68k-amix-sysroot/usr/lib/libamixc99.so.1
+link path=opt/m68k-amix-sysroot/usr/lib/libamixc99.so target=libamixc99.so.1
+file path=opt/m68k-amix-sysroot/usr/local/include/amix_cpu.h
 file path=opt/m68k-amix-sysroot/usr/local/include/inttypes.h
 file path=opt/m68k-amix-sysroot/usr/local/include/stdbool.h
 file path=opt/m68k-amix-sysroot/usr/local/include/stdint.h
-file path=opt/m68k-amix-sysroot/usr/local/lib/libamixc99.a
 file path=opt/m68k-amix-sysroot/usr/local/lib/pkgconfig/amixc99.pc
-#
+file path=opt/m68k-amix-sysroot/usr/local/share/amix-stubs/amixc99/LIST
+file path=opt/m68k-amix-sysroot/usr/local/share/amix-stubs/amixc99/libamixc99.so.1.s
 depend type=require fmri=developer/amix/sysroot@2.1.2

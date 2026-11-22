@@ -89,7 +89,7 @@ depend type=require fmri=web/curl
 # tools/amix-pkg-config runs the host pkg-config over the sysroot's .pc files
 depend type=require fmri=developer/build/pkg-config
 # the Build tab: the AMIX compiler without the 68060-built libamixc99.a, and the base sysroot
-depend type=optional fmri=developer/amix/gcc-14@14.2.0-2026.0.0.4
+depend type=optional fmri=developer/amix/gcc-14@14.2.0-2026.0.0.5
 depend type=optional fmri=developer/amix/sysroot
 depend type=require fmri=developer/amix/rtgfb-kit
 # the 68040/060 kernels, the driver chains and the root stamp

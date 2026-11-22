@@ -928,6 +928,8 @@ file path=opt/m68k-amix/m68k-elf/include/c++/14.2.0/variant
 file path=opt/m68k-amix/m68k-elf/include/c++/14.2.0/vector
 file path=opt/m68k-amix/m68k-elf/include/c++/14.2.0/version
 file path=opt/m68k-amix/m68k-elf/lib/amix_init.o
+file path=opt/m68k-amix/m68k-elf/lib/libamixc99.so.1
+link path=opt/m68k-amix/m68k-elf/lib/libamixc99.so target=libamixc99.so.1
 file path=opt/m68k-amix/m68k-elf/lib/ldscripts/m68kelf.x
 file path=opt/m68k-amix/m68k-elf/lib/ldscripts/m68kelf.xbn
 file path=opt/m68k-amix/m68k-elf/lib/ldscripts/m68kelf.xc
@@ -1011,6 +1013,7 @@ hardlink path=opt/m68k-amix/m68k-elf/bin/ld.bfd target=ld
 file path=opt/m68k-amix/lib/gcc/m68k-elf/14.2.0/include-fixed/README
 file path=opt/m68k-amix/lib/gcc/m68k-elf/14.2.0/include-fixed/a.out.h
 file path=opt/m68k-amix/lib/gcc/m68k-elf/14.2.0/include-fixed/agent.h
+file path=opt/m68k-amix/lib/gcc/m68k-elf/14.2.0/include-fixed/amix_cpu.h
 file path=opt/m68k-amix/lib/gcc/m68k-elf/14.2.0/include-fixed/aouthdr.h
 file path=opt/m68k-amix/lib/gcc/m68k-elf/14.2.0/include-fixed/ar.h
 file path=opt/m68k-amix/lib/gcc/m68k-elf/14.2.0/include-fixed/archives.h

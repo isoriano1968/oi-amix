@@ -14,9 +14,10 @@
 #
 # desktop/amix-installer/repository -- the AMIX packages the AMIX Installer
 # serves to AMIX in its network install: an IPS repository (publisher amix)
-# of every amix-userland package, built for AMIX (m68k), under
-# /usr/share/amix-installer/repo.  The source is amix-userland
-# components/desktop/amix-installer "make repo repo-archive" of that date;
+# of amix-userland packages, built for AMIX (m68k), under
+# /usr/share/amix-installer/repo.  The source is the newest version of each
+# package, rebuilt from amix-userland on GitHub (x11/xserver-amix and
+# packages without changes: their earlier builds);
 # the archive holds built AMIX packages, so it is no git source: it is an
 # asset of the oi-amix GitHub release it belongs to, downloaded from there
 # and checked by its sha256.  Each package in it names its own license.
@@ -27,7 +28,7 @@ BUILD_STYLE =		justmake
 include ../../../make-rules/shared-macros.mk
 
 COMPONENT_NAME =	amix-installer-repository
-COMPONENT_VERSION =	2026.11.21.11
+COMPONENT_VERSION =	2026.11.22.1
 COMPONENT_REVISION =	0
 COMPONENT_SUMMARY =	AMIX packages for the AMIX Installer network install
 COMPONENT_PROJECT_URL =	https://github.com/isoriano1968/amix-userland
@@ -38,8 +39,8 @@ COMPONENT_LICENSE_FILE = amix-installer-repository.license
 
 COMPONENT_SRC =		repo
 COMPONENT_ARCHIVE =	$(COMPONENT_NAME)-$(COMPONENT_VERSION).tar.gz
-COMPONENT_ARCHIVE_HASH = sha256:65295544510d972404161d8b5832d18a4977c30cd6745ed63e78073ddfaf406d
-COMPONENT_ARCHIVE_URL =	https://github.com/isoriano1968/oi-amix/releases/download/v0.8.3/$(COMPONENT_ARCHIVE)
+COMPONENT_ARCHIVE_HASH = sha256:d35dc9b89952f935f095d847e4a18c74a789ecad83390837fa5f6a3dd9fe61d8
+COMPONENT_ARCHIVE_URL =	https://github.com/isoriano1968/oi-amix/releases/download/v0.9.2/$(COMPONENT_ARCHIVE)
 
 include $(WS_MAKE_RULES)/common.mk
 

@@ -25,7 +25,7 @@ BUILD_STYLE =		justmake
 include ../../../make-rules/shared-macros.mk
 
 COMPONENT_NAME =	amix-installer
-COMPONENT_VERSION =	0.9.1
+COMPONENT_VERSION =	0.9.2
 COMPONENT_REVISION =	0
 COMPONENT_SUMMARY =	AMIX Installer: Amiga UNIX disks and packages from the desktop
 COMPONENT_PROJECT_URL =	https://github.com/isoriano1968/amix-userland
@@ -34,10 +34,10 @@ COMPONENT_CLASSIFICATION = System/Administration and Configuration
 COMPONENT_LICENSE =	MIT
 COMPONENT_LICENSE_FILE = amix-installer.license
 
-AMIX_USERLAND_COMMIT =	554b20a0e2f4464d3cf3d772ac4dc47e8ff38378
+AMIX_USERLAND_COMMIT =	eb45709ead8ed771f2b0183cdeb12b808bdd0c5f
 COMPONENT_SRC =		amix-userland-$(AMIX_USERLAND_COMMIT)
 COMPONENT_ARCHIVE =	$(COMPONENT_SRC).tar.gz
-COMPONENT_ARCHIVE_HASH = sha256:a759acbf2a272a5b1624dd4db6f08e231f799ae32a836dfe461a3dd86a61c87b
+COMPONENT_ARCHIVE_HASH = sha256:82738ba4ddaa242a6f3ee44927ec1527d94f79810d6ef473c1fb4a851aae2144
 COMPONENT_ARCHIVE_URL =	https://github.com/isoriano1968/amix-userland/archive/$(AMIX_USERLAND_COMMIT).tar.gz
 
 include $(WS_MAKE_RULES)/common.mk

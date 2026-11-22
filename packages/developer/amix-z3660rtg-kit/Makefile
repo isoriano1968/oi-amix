@@ -39,7 +39,7 @@ include ../../../make-rules/shared-macros.mk
 
 COMPONENT_NAME =	amix-z3660rtg-kit
 COMPONENT_VERSION =	0.1
-COMPONENT_REVISION =	0
+COMPONENT_REVISION =	1
 COMPONENT_SUMMARY =	z3660rtg kernel driver kit for the AMIX Installer (Z3660 RTG)
 COMPONENT_PROJECT_URL =	https://github.com/isoriano1968/amix-gate
 COMPONENT_FMRI =	developer/amix/z3660rtg-kit

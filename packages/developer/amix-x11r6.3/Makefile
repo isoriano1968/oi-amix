@@ -32,6 +32,7 @@ include ../../../make-rules/shared-macros.mk
 
 COMPONENT_NAME =	amix-x11r6.3
 COMPONENT_VERSION =	6.3
+COMPONENT_REVISION =	1
 COMPONENT_SUMMARY =	X11R6.3 client libraries, headers and xauth for the AMIX sysroot
 COMPONENT_PROJECT_URL =	https://github.com/isoriano1968/amix-userland
 COMPONENT_FMRI =	developer/amix/x11r6.3

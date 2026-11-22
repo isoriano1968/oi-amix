@@ -27,6 +27,7 @@ include ../../../make-rules/shared-macros.mk
 
 COMPONENT_NAME =	amix-libxp
 COMPONENT_VERSION =	6.3
+COMPONENT_REVISION =	1
 COMPONENT_SUMMARY =	libXp (X Print client library) for the AMIX sysroot
 COMPONENT_PROJECT_URL =	https://github.com/isoriano1968/amix-userland
 COMPONENT_FMRI =	developer/amix/libxp

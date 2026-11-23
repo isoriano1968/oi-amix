@@ -146,7 +146,9 @@ hipster-encumbered publisher).
 - REQUIRED_PACKAGES must list the package of every resolved dependency
   (resolve only searches those): SUNWcs for #!/usr/bin/env.
 - tools/oi-sync.sh used to delete the unpacked sources on the VM at every
-  re-sync (rsync --delete); fixed with --filter 'P /*/'.
+  re-sync (rsync --delete).  --filter 'P /*/' kept only real directories;
+  since 2026-11-22 it keeps every top-level entry and lists what it would
+  delete or replace: that needs --delete (exit 3 otherwise).
 - illumos cp -R and chmod -R follow symlinks: on AMIX trees (absolute links
   such as usr/include/X11 -> /usr/X/include) they reach into the host. Use
   the GNU tools.

@@ -160,7 +160,9 @@ release is one of its assets on the
 recipe downloads it from there, checked by its sha256. The release's
 `.p5p` already holds the built package.
 
-`tools/oi-sync.sh` also lets pkglint accept dependencies on the `amix`
+`tools/oi-sync.sh` stops (exit 3) before it deletes or replaces anything that
+exists only on the build machine, and lists it; `-n` only shows, `--delete`
+allows it. The script also lets pkglint accept dependencies on the `amix`
 publisher in the checkout; `tools/amix-smoke-test.sh` checks an installed
 toolchain, and `notes/` documents the toolchain ports.
 

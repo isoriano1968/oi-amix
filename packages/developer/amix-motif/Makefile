@@ -54,13 +54,35 @@ AMIX_SYSROOT =		/opt/m68k-amix-sysroot
 COMP =			$(SOURCE_DIR)/components/desktop/motif
 COMP_ARGS =		AMIX_SYSROOT=$(AMIX_SYSROOT) AMIX_TOOLS=/opt/m68k-amix/bin HOST_CC=/usr/bin/gcc
 
+# Motif builds against a clean sysroot (its component Makefile refuses one that
+# already holds a /usr/motif).  A build machine with the AMIX cross packages installed
+# has one in $(AMIX_SYSROOT): the build gets a private copy of it without the
+# files of motif and of cde, which is built on it.  The package still installs into
+# $(AMIX_SYSROOT); the copy is only the build's.
+CLEAN_SYSROOT =		$(BUILD_DIR)/amix-sysroot
+CLEAN_PKG =		/usr/bin/pkg
+CLEAN_WITHOUT =		developer/amix/motif developer/amix/cde
+define CLEAN_SYSROOT_ACTION
+$(RM) -r $(CLEAN_SYSROOT)
+$(MKDIR) $(CLEAN_SYSROOT)
+cd $(AMIX_SYSROOT) && $(GTAR) -cf - . | (cd $(CLEAN_SYSROOT) && $(GTAR) -xf -)
+set -o pipefail; for p in $(CLEAN_WITHOUT); do \
+	$(CLEAN_PKG) list -H $$p > /dev/null 2>&1 || continue; \
+	$(CLEAN_PKG) contents -H -o path -t file,link,hardlink $$p | \
+		sed -n 's|^$(AMIX_SYSROOT:/%=%)/||p' | tr '\n' '\0' | \
+		(cd $(CLEAN_SYSROOT) && xargs -0 rm -f) || exit 1; \
+done
+find $(CLEAN_SYSROOT) -depth -type d -empty -delete
+endef
+
 COMPONENT_COPY_ACTION =
 COMPONENT_CONFIGURE_ACTION = true
 
 define COMPONENT_BUILD_ACTION
 $(MKDIR) $(SOURCE_DIR)/components/desktop/motif
 $(CP) $(USERLAND_ARCHIVES)motif-2.3.8.tar.gz $(SOURCE_DIR)/components/desktop/motif/motif-2.3.8.tar.gz
-$(GMAKE) -C $(COMP) $(COMP_ARGS) stage
+$(CLEAN_SYSROOT_ACTION)
+$(GMAKE) -C $(COMP) $(COMP_ARGS) AMIX_SYSROOT=$(CLEAN_SYSROOT) stage
 endef
 
 define COMPONENT_INSTALL_ACTION

@@ -76,12 +76,36 @@ X11R63_ARGS =		AMIX_SYSROOT=$(AMIX_SYSROOT) \
 			HOST_CC=/usr/bin/gcc HOST_CPP=/usr/bin/cpp \
 			DISTFILES=$(USERLAND_ARCHIVES:%/=%)
 
+# X11R6.3 builds against a clean sysroot (its component Makefile refuses one that
+# already holds a /usr/x11r6).  A build machine with the AMIX cross packages installed
+# has one in $(AMIX_SYSROOT): the build gets a private copy of it without the
+# files of x11r6.3 and of what is built on it (libxp, motif, cde).  The package still installs into
+# $(AMIX_SYSROOT); the copy is only the build's.
+CLEAN_SYSROOT =		$(BUILD_DIR)/amix-sysroot
+CLEAN_PKG =		/usr/bin/pkg
+CLEAN_WITHOUT =		developer/amix/x11r6.3 developer/amix/libxp developer/amix/motif developer/amix/cde
+define CLEAN_SYSROOT_ACTION
+$(RM) -r $(CLEAN_SYSROOT)
+$(MKDIR) $(CLEAN_SYSROOT)
+cd $(AMIX_SYSROOT) && $(GTAR) -cf - . | (cd $(CLEAN_SYSROOT) && $(GTAR) -xf -)
+set -o pipefail; for p in $(CLEAN_WITHOUT); do \
+	$(CLEAN_PKG) list -H $$p > /dev/null 2>&1 || continue; \
+	$(CLEAN_PKG) contents -H -o path -t file,link,hardlink $$p | \
+		sed -n 's|^$(AMIX_SYSROOT:/%=%)/||p' | tr '\n' '\0' | \
+		(cd $(CLEAN_SYSROOT) && xargs -0 rm -f) || exit 1; \
+done
+find $(CLEAN_SYSROOT) -depth -type d -empty -delete
+endef
+
 COMPONENT_COPY_ACTION =
 COMPONENT_CONFIGURE_ACTION = true
 
 # the component's own target does everything: unpack and patch X11R6.3,
 # imake, the shared libraries, the stage (checked against its manifest)
-COMPONENT_BUILD_ACTION = $(GMAKE) -C $(X11R63) $(X11R63_ARGS) stage
+define COMPONENT_BUILD_ACTION
+$(CLEAN_SYSROOT_ACTION)
+$(GMAKE) -C $(X11R63) $(X11R63_ARGS) AMIX_SYSROOT=$(CLEAN_SYSROOT) stage
+endef
 
 define COMPONENT_INSTALL_ACTION
 $(RM) -r $(PROTO_DIR)$(AMIX_SYSROOT)

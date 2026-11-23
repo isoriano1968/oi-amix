@@ -42,6 +42,9 @@ COMPONENT_ARCHIVE =	$(COMPONENT_NAME)-$(COMPONENT_VERSION).tar.gz
 COMPONENT_ARCHIVE_HASH = sha256:d35dc9b89952f935f095d847e4a18c74a789ecad83390837fa5f6a3dd9fe61d8
 COMPONENT_ARCHIVE_URL =	https://github.com/isoriano1968/oi-amix/releases/download/v0.9.2/$(COMPONENT_ARCHIVE)
 
+# no tests of its own: gmake test says so and succeeds
+TEST_TARGET =		$(NO_TESTS)
+
 include $(WS_MAKE_RULES)/common.mk
 
 COMPONENT_COPY_ACTION =
@@ -51,5 +54,3 @@ COMPONENT_INSTALL_ACTION = mkdir -p $(PROTO_DIR)/usr/share/amix-installer && \
 	rm -rf $(PROTO_DIR)/usr/share/amix-installer/repo && \
 	cp -R $(SOURCE_DIR) $(PROTO_DIR)/usr/share/amix-installer/repo && \
 	rm -f $(PROTO_DIR)/usr/share/amix-installer/repo/.prep $(PROTO_DIR)/usr/share/amix-installer/repo/.unpacked
-COMPONENT_TEST_ACTION = true
-COMPONENT_TEST_TARGETS =

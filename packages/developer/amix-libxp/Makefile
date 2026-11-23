@@ -45,6 +45,9 @@ COMPONENT_ARCHIVE_1 =	xc-1.tar.gz
 COMPONENT_ARCHIVE_HASH_1 = sha256:a1324ca19ea7a46abacb5a1a72e14e944140e73449dc524403829a694ba370b8
 COMPONENT_ARCHIVE_URL_1 = https://www.x.org/archive/X11R6.3/tars/xc-1.tar.gz
 
+# no tests of its own: gmake test says so and succeeds
+TEST_TARGET =		$(NO_TESTS)
+
 include $(WS_MAKE_RULES)/common.mk
 
 # the amix-userland Makefiles and scripts use GNU tar, sed, find and cp
@@ -69,9 +72,6 @@ $(MKDIR) $(PROTO_DIR)$(AMIX_SYSROOT)
 cd $(COMP)/build/stage && $(GTAR) --numeric-owner -cf - usr | \
 	(cd $(PROTO_DIR)$(AMIX_SYSROOT) && $(GTAR) --no-same-owner -xf -)
 endef
-
-COMPONENT_TEST_ACTION = true
-COMPONENT_TEST_TARGETS =
 
 REQUIRED_PACKAGES += developer/amix/sysroot
 REQUIRED_PACKAGES += developer/amix/amixc99

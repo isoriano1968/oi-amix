@@ -43,6 +43,9 @@ COMPONENT_ARCHIVE =	$(COMPONENT_SRC).tar.gz
 COMPONENT_ARCHIVE_HASH = sha256:cd3c754742fd6168ce0d70326764c5d7a2de8030c20d2193ab92de6c9b8bd588
 COMPONENT_ARCHIVE_URL =	https://github.com/isoriano1968/amix-gate/archive/$(AMIX_GATE_COMMIT).tar.gz
 
+# no tests of its own: gmake test says so and succeeds
+TEST_TARGET =		$(NO_TESTS)
+
 include $(WS_MAKE_RULES)/common.mk
 
 PATH =			/opt/amix-cross/bin:/opt/m68k-amix/bin:$(PATH.gnu)
@@ -61,9 +64,6 @@ AMIX_ROOT=$(AMIX_SYSROOT) $(SHELL) $(KIT_PORT)/make-kit-040.sh $(PROTO_DIR)$(KIT
 cd $(PROTO_DIR)$(KIT_DIR)-040 && /usr/bin/sha256sum -c KIT.sha256
 $(RM) -r $(KIT_PORT)/build
 endef
-
-COMPONENT_TEST_ACTION = true
-COMPONENT_TEST_TARGETS =
 
 REQUIRED_PACKAGES += developer/amix/gcc-14
 REQUIRED_PACKAGES += developer/amix/gcc-27

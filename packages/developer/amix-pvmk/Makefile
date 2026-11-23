@@ -58,6 +58,9 @@ COMPONENT_ARCHIVE =	$(COMPONENT_SRC).tar.gz
 COMPONENT_ARCHIVE_HASH = sha256:dadf400e5311e234fcf8c03eab76e5c8cac893d6a196b953e5fa4aa8fd871328
 COMPONENT_ARCHIVE_URL =	https://github.com/isoriano1968/pvmk/archive/$(PVMK_COMMIT).tar.gz
 
+# no tests of its own: gmake test says so and succeeds
+TEST_TARGET =		$(NO_TESTS)
+
 include $(WS_MAKE_RULES)/common.mk
 
 PATH =			$(PATH.gnu)
@@ -93,9 +96,6 @@ echo $(PVMK_VERSION) > $(SHARE_DIR)/VERSION
 $(CP) $(SOURCE_DIR)/conf/pvmk.conf $(SOURCE_DIR)/conf/README.disk $(SHARE_DIR)/conf/
 $(CP) $(@D)/pvmk/host/mkadf $(@D)/pvmk/host/mkhdf $(LIB_DIR)/
 endef
-
-COMPONENT_TEST_ACTION = true
-COMPONENT_TEST_TARGETS =
 
 PYTHON_VERSION =	3.9
 

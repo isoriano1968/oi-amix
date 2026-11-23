@@ -9,7 +9,6 @@
 # http://www.illumos.org/license/CDDL.
 #
 
-
 #
 # developer/amix/a4091-kit -- the NCR 53C710 Zorro III SCSI boards: Commodore
 # A4091 (AutoConfig 0x0202:0x54), A4092 and A4770 (SCSI.ME, 0xc0de:0x01, 0x02)
@@ -43,6 +42,9 @@ COMPONENT_ARCHIVE =	$(COMPONENT_SRC).tar.gz
 COMPONENT_ARCHIVE_HASH = sha256:decd4d337072220219287968ebc7013615625ac8f532feacef42347515a6201c
 COMPONENT_ARCHIVE_URL =	https://github.com/isoriano1968/amix-gate/archive/$(AMIX_GATE_COMMIT).tar.gz
 
+# no tests of its own: gmake test says so and succeeds
+TEST_TARGET =		$(NO_TESTS)
+
 include $(WS_MAKE_RULES)/common.mk
 
 PATH =			/opt/amix-cross/bin:/opt/m68k-amix/bin:$(PATH.gnu)
@@ -63,9 +65,6 @@ AMIX_ROOT=$(AMIX_SYSROOT) $(SHELL) $(KIT_PORT)/make-kit-040.sh $(PROTO_DIR)$(KIT
 cd $(PROTO_DIR)$(KIT_DIR)-040 && /usr/bin/sha256sum -c KIT.sha256
 $(RM) -r $(KIT_PORT)/build
 endef
-
-COMPONENT_TEST_ACTION = true
-COMPONENT_TEST_TARGETS =
 
 REQUIRED_PACKAGES += developer/amix/gcc-14
 REQUIRED_PACKAGES += developer/amix/gcc-27

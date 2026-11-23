@@ -44,6 +44,9 @@ COMPONENT_ARCHIVE =	$(COMPONENT_SRC).tar.gz
 COMPONENT_ARCHIVE_HASH = sha256:f25b862c59ee1665811dc1e7b068dff175985ce3bdf50c0764b43a2480b387d3
 COMPONENT_ARCHIVE_URL =	https://github.com/isoriano1968/amix-userland/archive/$(AMIX_USERLAND_COMMIT).tar.gz
 
+# no tests of its own: gmake test says so and succeeds
+TEST_TARGET =		$(NO_TESTS)
+
 include $(WS_MAKE_RULES)/common.mk
 
 # the amix-userland Makefiles use GNU tar, sed and cp options
@@ -66,9 +69,6 @@ cd $(AMIXC99)/build/stage && $(GTAR) --numeric-owner -cf - usr | \
 cmp $(PROTO_DIR)$(AMIX_SYSROOT)/usr/lib/libamixc99.so.1 \
 	`$(AMIX_TOOLS)/m68k-elf-gcc -print-file-name=libamixc99.so.1`
 endef
-
-COMPONENT_TEST_ACTION = true
-COMPONENT_TEST_TARGETS =
 
 REQUIRED_PACKAGES += developer/amix/gcc-14
 REQUIRED_PACKAGES += developer/build/pkg-config

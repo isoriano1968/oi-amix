@@ -47,6 +47,9 @@ COMPONENT_ARCHIVE_1 =	$(COMPONENT_SRC_1).tar.gz
 COMPONENT_ARCHIVE_HASH_1 = sha256:d97683a3f611aa16d9ca29d8c2d359c9f96a028ec0185550d4412c2b1dd9895c
 COMPONENT_ARCHIVE_URL_1 = https://github.com/asokero/va2000-amix/archive/$(VA2000_COMMIT).tar.gz
 
+# no tests of its own: gmake test says so and succeeds
+TEST_TARGET =		$(NO_TESTS)
+
 include $(WS_MAKE_RULES)/common.mk
 
 PATH =			/opt/amix-cross/bin:/opt/m68k-amix/bin:$(PATH.gnu)
@@ -67,9 +70,6 @@ cd $(PROTO_DIR)$(KIT_DIR) && /usr/bin/sha256sum -c KIT.sha256
 cd $(PROTO_DIR)$(KIT_DIR)-040 && /usr/bin/sha256sum -c KIT.sha256
 $(RM) -r $(KIT_PORT)/build
 endef
-
-COMPONENT_TEST_ACTION = true
-COMPONENT_TEST_TARGETS =
 
 REQUIRED_PACKAGES += developer/amix/gcc-14
 REQUIRED_PACKAGES += developer/amix/gcc-27

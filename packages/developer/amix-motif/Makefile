@@ -45,6 +45,9 @@ COMPONENT_ARCHIVE_1 =	motif-2.3.8.tar.gz
 COMPONENT_ARCHIVE_HASH_1 = sha256:859b723666eeac7df018209d66045c9853b50b4218cecadb794e2359619ebce7
 COMPONENT_ARCHIVE_URL_1 = https://sourceforge.net/projects/motif/files/Motif%202.3.8%20Source%20Code/motif-2.3.8.tar.gz/download
 
+# no tests of its own: gmake test says so and succeeds
+TEST_TARGET =		$(NO_TESTS)
+
 include $(WS_MAKE_RULES)/common.mk
 
 # the amix-userland Makefiles and scripts use GNU tar, sed, find and cp
@@ -91,9 +94,6 @@ $(MKDIR) $(PROTO_DIR)$(AMIX_SYSROOT)
 cd $(COMP)/build/stage && $(GTAR) --numeric-owner -cf - usr | \
 	(cd $(PROTO_DIR)$(AMIX_SYSROOT) && $(GTAR) --no-same-owner -xf -)
 endef
-
-COMPONENT_TEST_ACTION = true
-COMPONENT_TEST_TARGETS =
 
 REQUIRED_PACKAGES += developer/amix/sysroot
 REQUIRED_PACKAGES += developer/amix/amixc99

@@ -71,6 +71,9 @@ COMPONENT_ARCHIVE_1 =	$(COMPONENT_SRC_1).tar.gz
 COMPONENT_ARCHIVE_HASH_1 = sha256:5a4887546cf32e5a14786ea7e18dad9ecc5eb5be323af4d8d1d37808883c5b33
 COMPONENT_ARCHIVE_URL_1 = https://github.com/amigaux/amix/archive/$(AMIX_COMMIT).tar.gz
 
+# no tests of its own: gmake test says so and succeeds
+TEST_TARGET =		$(NO_TESTS)
+
 include $(WS_MAKE_RULES)/common.mk
 
 # check-amix-system wants GNU find, sha256sum and readlink
@@ -109,7 +112,5 @@ $(PYTHON) -I $(COMPONENT_DIR)/files/relink-sysroot.py $(PROTO_SYSROOT)
 endef
 
 # no test suite: the toolchain packages' smoke tests link against it
-COMPONENT_TEST_ACTION = true
-COMPONENT_TEST_TARGETS =
 
 REQUIRED_PACKAGES += runtime/python-39

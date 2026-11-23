@@ -63,6 +63,9 @@ COMPONENT_ARCHIVE_4 =	amix-z3660rtg-$(RTG_COMMIT).tar.gz
 COMPONENT_ARCHIVE_HASH_4 = sha256:3b41d6bd9a7864bbd52ac8b0b4440cf6734140234b7deaf52d2ebcc111acfdf6
 COMPONENT_ARCHIVE_URL_4 = https://github.com/jusii/amix-z3660rtg/archive/$(RTG_COMMIT).tar.gz
 
+# no tests of its own: gmake test says so and succeeds
+TEST_TARGET =		$(NO_TESTS)
+
 include $(WS_MAKE_RULES)/common.mk
 
 # the amix-userland Makefiles and scripts use GNU tar, sed, find and cp
@@ -113,9 +116,6 @@ $(MKDIR) $(PROTO_DIR)$(AMIX_SYSROOT)
 cd $(X11R63)/build/stage && $(GTAR) --numeric-owner -cf - usr | \
 	(cd $(PROTO_DIR)$(AMIX_SYSROOT) && $(GTAR) --no-same-owner -xf -)
 endef
-
-COMPONENT_TEST_ACTION = true
-COMPONENT_TEST_TARGETS =
 
 REQUIRED_PACKAGES += developer/amix/amixc99
 REQUIRED_PACKAGES += developer/amix/gcc-14

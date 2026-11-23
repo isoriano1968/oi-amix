@@ -9,7 +9,6 @@
 # http://www.illumos.org/license/CDDL.
 #
 
-
 #
 # developer/amix/buddha-kit -- the Buddha and Catweasel Z-II IDE controllers
 # (AutoConfig 0x1212:0x00 and 0x1212:0x2A) as SCSI controllers of the stock
@@ -42,6 +41,9 @@ COMPONENT_ARCHIVE =	$(COMPONENT_SRC).tar.gz
 COMPONENT_ARCHIVE_HASH = sha256:b691283d711da0ab793ebe58a8a97466e5b27a70ae5b2b9608784302329ebf2b
 COMPONENT_ARCHIVE_URL =	https://github.com/isoriano1968/amix-gate/archive/$(AMIX_GATE_COMMIT).tar.gz
 
+# no tests of its own: gmake test says so and succeeds
+TEST_TARGET =		$(NO_TESTS)
+
 include $(WS_MAKE_RULES)/common.mk
 
 PATH =			/opt/amix-cross/bin:/opt/m68k-amix/bin:$(PATH.gnu)
@@ -62,9 +64,6 @@ AMIX_ROOT=$(AMIX_SYSROOT) $(SHELL) $(KIT_PORT)/make-kit-040.sh $(PROTO_DIR)$(KIT
 cd $(PROTO_DIR)$(KIT_DIR)-040 && /usr/bin/sha256sum -c KIT.sha256
 $(RM) -r $(KIT_PORT)/build
 endef
-
-COMPONENT_TEST_ACTION = true
-COMPONENT_TEST_TARGETS =
 
 REQUIRED_PACKAGES += developer/amix/gcc-14
 REQUIRED_PACKAGES += developer/amix/gcc-27

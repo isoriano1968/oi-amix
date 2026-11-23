@@ -29,19 +29,22 @@ and remove with `pkg`.
 
 ## Quick start
 
-1. **Download** the newest `oi-amix-*.p5p` from the
+1. **Download** `oi-amix-packages-*.p5p` from the newest release on the
    [Releases page](https://github.com/isoriano1968/oi-amix/releases), and
    its `SHA256SUMS`. Check it:
 
    ```bash
-   sha256sum -c SHA256SUMS
+   sha256sum -c --ignore-missing SHA256SUMS
    ```
+
+   The release's other `.p5p`, `oi-amix-<version>.p5p`, holds only the
+   installer: the installer's own update uses it.
 
 2. **Install** the AMIX Installer (it brings the package repository AMIX
    is installed from, the boot loader and the kernel tools):
 
    ```bash
-   pfexec pkg install -g oi-amix-*.p5p desktop/amix-installer
+   pfexec pkg install -g oi-amix-packages-*.p5p desktop/amix-installer
    ```
 
 3. **Start** *AMIX Installer* from the Applications menu (or run
@@ -111,7 +114,7 @@ build AMIX programs on OpenIndiana and run them on AMIX with one key (F5):
 For cross development without the installer:
 
 ```bash
-pfexec pkg install -g oi-amix-*.p5p metapackages/amix-cross-dev-desktop
+pfexec pkg install -g oi-amix-packages-*.p5p metapackages/amix-cross-dev-desktop
 ```
 
 ## How to go back

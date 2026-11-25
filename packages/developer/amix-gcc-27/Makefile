@@ -32,7 +32,9 @@
 # compile-and-link.  Drop it once the pinned commit has the fix.
 #
 # The host binaries are 32-bit: gcc 2.7 was written for 32-bit hosts, and
-# its config/i386/xm-i386.h hard-codes HOST_BITS_PER_LONG 32.  The AMIX
+# its host configs (config/i386/xm-i386.h, config/sparc/xm-sparc.h) hard-code
+# HOST_BITS_PER_LONG 32.  The host triplet is the build machine's: x86 or
+# SPARC, from oi-userland's MACH (uname -p).  The AMIX
 # sysroot is the package developer/amix/sysroot (required): the link
 # /opt/amix-cross/m68k-cbm-sysv4/sysroot points at /opt/m68k-amix-sysroot.
 #
@@ -91,7 +93,9 @@ COMPONENT_PREP_ACTION = \
 	touch $(SOURCE_DIR)/c-parse.c $(SOURCE_DIR)/c-gperf.h
 
 TARGET =		m68k-cbm-sysv4
-HOST_TRIPLET =		i386-pc-solaris2.11
+HOST_TRIPLET.i386 =	i386-pc-solaris2.11
+HOST_TRIPLET.sparc =	sparc-sun-solaris2.11
+HOST_TRIPLET =		$(HOST_TRIPLET.$(MACH))
 AMIX_PREFIX =		/opt/amix-cross
 AMIX_SYSROOT =		/opt/m68k-amix-sysroot
 PROTO_PREFIX =		$(PROTO_DIR)$(AMIX_PREFIX)

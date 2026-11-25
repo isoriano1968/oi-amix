@@ -95,5 +95,5 @@ REQUIRED_PACKAGES += developer/amix/gcc-27
 REQUIRED_PACKAGES += developer/amix/sysroot
 REQUIRED_PACKAGES += archiver/gnu-tar
 REQUIRED_PACKAGES += developer/macro/gnu-m4
-REQUIRED_PACKAGES += runtime/python-313
+REQUIRED_PACKAGES += runtime/python-39
 REQUIRED_PACKAGES += text/gnu-patch

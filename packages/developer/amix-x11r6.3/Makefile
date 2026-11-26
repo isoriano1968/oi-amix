@@ -28,6 +28,12 @@
 BUILD_BITS =		NO_ARCH
 BUILD_STYLE =		justmake
 
+# OpenIndiana SPARC's newest system compiler is gcc 13 (and its runtimes
+# are the only ones in its repository); x86 keeps oi-userland's default.
+ifeq ($(shell uname -p),sparc)
+GCC_VERSION =		13
+endif
+
 include ../../../make-rules/shared-macros.mk
 
 COMPONENT_NAME =	amix-x11r6.3
@@ -121,4 +127,4 @@ REQUIRED_PACKAGES += developer/amix/amixc99
 REQUIRED_PACKAGES += developer/amix/gcc-14
 REQUIRED_PACKAGES += developer/amix/gcc-27
 REQUIRED_PACKAGES += developer/amix/sysroot
-REQUIRED_PACKAGES += developer/gcc-14
+REQUIRED_PACKAGES += developer/gcc-$(GCC_VERSION)

@@ -39,6 +39,12 @@
 BUILD_BITS =		64
 BUILD_STYLE =		justmake
 
+# OpenIndiana SPARC's newest system compiler is gcc 13 (and its runtimes
+# are the only ones in its repository); x86 keeps oi-userland's default.
+ifeq ($(shell uname -p),sparc)
+GCC_VERSION =		13
+endif
+
 include ../../../make-rules/shared-macros.mk
 
 COMPONENT_NAME =	amix-gcc-14
@@ -213,6 +219,6 @@ REQUIRED_PACKAGES += runtime/python-39
 REQUIRED_PACKAGES += shell/bash
 REQUIRED_PACKAGES += shell/ksh93
 REQUIRED_PACKAGES += system/library
-REQUIRED_PACKAGES += system/library/g++-14-runtime
-REQUIRED_PACKAGES += system/library/gcc-14-runtime
+REQUIRED_PACKAGES += $(GXX_RUNTIME_PKG)
+REQUIRED_PACKAGES += $(GCC_RUNTIME_PKG)
 REQUIRED_PACKAGES += system/library/math

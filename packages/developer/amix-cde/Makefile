@@ -99,10 +99,12 @@ REQUIRED_PACKAGES += developer/amix/libxp
 REQUIRED_PACKAGES += developer/amix/motif
 REQUIRED_PACKAGES += developer/gcc-$(GCC_VERSION)
 # The host tools scripts/prep.sh and build-cde.sh check for ("need"): CDE's
-# fonts (bdftopcf, mkfontdir), its imake (cpp) and its parsers (flex, bison).
+# fonts (bdftopcf, mkfontdir and the mkfontscale OpenIndiana's mkfontdir
+# runs), its imake (cpp) and its parsers (flex, bison).
 REQUIRED_PACKAGES += developer/lexer/flex
 REQUIRED_PACKAGES += developer/macro/cpp
 REQUIRED_PACKAGES += developer/parser/bison-37
 REQUIRED_PACKAGES += text/gnu-patch
 REQUIRED_PACKAGES += x11/bdftopcf
 REQUIRED_PACKAGES += x11/mkfontdir
+REQUIRED_PACKAGES += x11/mkfontscale

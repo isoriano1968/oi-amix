@@ -1059,6 +1059,7 @@ file path=opt/m68k-amix/lib/gcc/m68k-elf/14.2.0/include-fixed/fs/rfs/rfcl_subr.h
 file path=opt/m68k-amix/lib/gcc/m68k-elf/14.2.0/include-fixed/ftw.h
 file path=opt/m68k-amix/lib/gcc/m68k-elf/14.2.0/include-fixed/grp.h
 file path=opt/m68k-amix/lib/gcc/m68k-elf/14.2.0/include-fixed/ieeefp.h
+file path=opt/m68k-amix/lib/gcc/m68k-elf/14.2.0/include-fixed/inttypes.h
 file path=opt/m68k-amix/lib/gcc/m68k-elf/14.2.0/include-fixed/langinfo.h
 file path=opt/m68k-amix/lib/gcc/m68k-elf/14.2.0/include-fixed/lastlog.h
 file path=opt/m68k-amix/lib/gcc/m68k-elf/14.2.0/include-fixed/ldfcn.h

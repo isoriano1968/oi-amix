@@ -17,7 +17,8 @@
 # sysroot's own headers and allowed; anything else under root/ is the host's.
 #
 # Also requires the headers the package depends on: stdint.h (ours, from
-# amix-userland's compat/include) and fixincludes' own stdio.h.
+# amix-userland's compat/include), inttypes.h (gcc-27/include) and
+# fixincludes' own stdio.h.
 #
 set -e
 d=${1:?usage: check-include-fixed.sh DIR [SYSROOT]}
@@ -44,7 +45,7 @@ while read -r l; do
 	*) echo "check-include-fixed.sh: $l -> $t leaves include-fixed" >&2; bad=1 ;;
 	esac
 done < <(/usr/gnu/bin/find "$d" -type l)
-for h in stdint.h stdio.h; do
+for h in stdint.h inttypes.h stdio.h; do
 	[ -f "$d/$h" ] || { echo "check-include-fixed.sh: no $h in $d" >&2; bad=1; }
 done
 [ $bad = 0 ] || exit 1

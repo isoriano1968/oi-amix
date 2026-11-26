@@ -52,7 +52,11 @@ COMPONENT_VERSION =	14.2.0
 # rev 5: the 68020 ISA tuned for the 68060 by default (--with-cpu=68020,
 # the specs add -mtune=68060), libamixc99 as the shared libamixc99.so.1
 # built by build-compat.sh after libgcc (no 68060 libamixc99.a)
-COMPONENT_REVISION =	5
+# rev 6: include-fixed/inttypes.h (amix-userland's gcc-27/include/inttypes.h,
+# the one developer/amix/amixc99 installs in usr/local/include), so the
+# libstdc++ configure finds it whether or not amixc99 is installed on the
+# build machine (_GLIBCXX_HAVE_INTTYPES_H)
+COMPONENT_REVISION =	6
 COMPONENT_SUMMARY =	AMIX cross compiler: gcc 14.2.0 (C, C++) and binutils 2.43.1
 COMPONENT_PROJECT_URL =	https://github.com/isoriano1968/amix-userland
 COMPONENT_FMRI =	developer/amix/gcc-14
@@ -180,6 +184,7 @@ $(CP) $(PROTO_PREFIX)/$(GCC_LIBDIR)/specs $(@D)/gcc/gcc/specs
 PATH=$(BUILD_PATH) $(GMAKE) -C $(@D)/gcc -j$(COMPONENT_MAKE_JOBS) $(MAKE_ARGS) all-gcc
 PATH=$(BUILD_PATH) $(BASH) $(AMIX14)/toolchain/install-fixed-headers.sh
 $(CP) $(AMIX14)/compat/include/stdint.h $(PROTO_PREFIX)/$(GCC_LIBDIR)/include-fixed/stdint.h
+$(CP) $(SOURCE_DIR_2)/components/developer/gcc-27/include/inttypes.h $(PROTO_PREFIX)/$(GCC_LIBDIR)/include-fixed/inttypes.h
 /usr/bin/bash $(COMPONENT_DIR)/files/check-include-fixed.sh $(PROTO_PREFIX)/$(GCC_LIBDIR)/include-fixed
 $(MKDIR) $(@D)/gcc/gcc/include-fixed
 cp -R $(PROTO_PREFIX)/$(GCC_LIBDIR)/include-fixed/. $(@D)/gcc/gcc/include-fixed/
